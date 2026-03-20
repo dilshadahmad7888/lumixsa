@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Assistant - Lumixsa AI | Your Smart Financial & Tech Guide</title>
+  <meta name="description" content="Chat with Lumixsa AI Assistant. Get instant answers about our tools, financial guides, and services. Voice-enabled AI assistant available 24/7.">
+  <meta name="keywords" content="AI assistant, chatbot, financial advisor, tech help, Lumixsa AI, artificial intelligence">
+  <meta name="author" content="Dilshad Ahmad">
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content="AI Assistant - Lumixsa AI">
+  <meta property="og:description" content="Chat with our AI Assistant for instant help with tools, finances, and more.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://lumixsa.site/ai-assistant.html">
+  
+  <!-- Favicon -->
+  <link rel="icon" type="image/jpeg" href="https://i.ibb.co/LX7SHfCH/lumixsa-logo.jpg">
+  <link rel="apple-touch-icon" href="https://i.ibb.co/LX7SHfCH/lumixsa-logo.jpg">
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  
+  <!-- Styles -->
+  <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="css/animations.css">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/responsive.css">
+  
+  <style>
+    .ai-page-hero {
+      min-height: 40vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding-top: 100px;
+      background: linear-gradient(135deg, rgba(99, 102, 241, 0.1) 0%, rgba(139, 92, 246, 0.1) 100%);
+    }
+    
+    .ai-features {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 2rem;
+      margin: 3rem 0;
+    }
+    
+    .ai-feature-card {
+      background: var(--glass-bg);
+      border: 1px solid var(--glass-border);
+      border-radius: 1rem;
+      padding: 2rem;
+      text-align: center;
+      transition: all 0.3s ease;
+    }
+    
+    .ai-feature-card:hover {
+      transform: translateY(-5px);
+      border-color: var(--accent-primary);
+    }
+    
+    .ai-feature-icon {
+      width: 60px;
+      height: 60px;
+      background: var(--gradient-hero);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.75rem;
+      margin: 0 auto 1.5rem;
+    }
+    
+    .ai-chat-wrapper {
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+    
+    .ai-chat-box.large {
+      min-height: 500px;
+    }
+    
+    .ai-chat-box.large .ai-messages {
+      height: 450px;
+    }
+    
+    .quick-questions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      justify-content: center;
+      margin-top: 1.5rem;
+    }
+    
+    .quick-question-btn {
+      padding: 0.625rem 1.25rem;
+      background: var(--glass-bg);
+      border: 1px solid var(--glass-border);
+      border-radius: 50px;
+      color: var(--text-secondary);
+      font-size: 0.9rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    
+    .quick-question-btn:hover {
+      background: var(--accent-primary);
+      color: white;
+      border-color: var(--accent-primary);
+    }
+  </style>
+</head>
+<body>
+  <!-- Navigation -->
+  <nav class="navbar">
+    <div class="container">
+      <a href="index.html" class="logo">
+        <img src="https://i.ibb.co/LX7SHfCH/lumixsa-logo.jpg" alt="Lumixsa AI Logo" class="logo-img">
+        <span>Lumixsa AI</span>
+      </a>
+      
+      <div class="nav-links">
+        <a href="index.html">Home</a>
+        <a href="tools.html">Tools</a>
+        <a href="blog.html">Blog</a>
+        <a href="ai-assistant.html" class="active">AI Assistant</a>
+        <a href="about.html">About</a>
+        <a href="contact.html">Contact</a>
+        <button class="theme-toggle" id="theme-toggle" aria-label="Toggle theme">
+          <span class="theme-icon">☀️</span>
+        </button>
+      </div>
+      
+      <button class="mobile-menu-btn" aria-label="Toggle menu">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+  </nav>
+  
+  <!-- Mobile Navigation -->
+  <div class="mobile-nav">
+    <a href="index.html">Home</a>
+    <a href="tools.html">Tools</a>
+    <a href="blog.html">Blog</a>
+    <a href="ai-assistant.html">AI Assistant</a>
+    <a href="about.html">About</a>
+    <a href="contact.html">Contact</a>
+  </div>
+
+  <!-- Hero Section -->
+  <section class="ai-page-hero">
+    <div class="container">
+      <div class="hero-content scroll-reveal">
+        <div class="hero-badge">
+          <span>🤖</span>
+          <span>24/7 Available</span>
+        </div>
+        
+        <h1>
+          Your Personal <span>AI Assistant</span>
+        </h1>
+        
+        <p class="hero-description">
+          Get instant answers about Lumixsa AI tools, financial guidance, and more. 
+          Our AI assistant is trained on our entire platform and can even speak responses!
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- AI Features -->
+  <section class="section" style="background: var(--bg-secondary);">
+    <div class="container">
+      <div class="section-header scroll-reveal">
+        <h2>What Can I Help You With?</h2>
+        <p>I'm trained to assist with everything on Lumixsa AI</p>
+      </div>
+      
+      <div class="ai-features scroll-reveal">
+        <div class="ai-feature-card">
+          <div class="ai-feature-icon">🛠️</div>
+          <h3>AI Tools</h3>
+          <p>Learn about our 10+ AI-powered tools and how to use them effectively for your projects.</p>
+        </div>
+        
+        <div class="ai-feature-card">
+          <div class="ai-feature-icon">📚</div>
+          <h3>Financial Guides</h3>
+          <p>Get summaries and explanations of our blog articles on loans, investing, and personal finance.</p>
+        </div>
+        
+        <div class="ai-feature-card">
+          <div class="ai-feature-icon">💡</div>
+          <h3>Quick Answers</h3>
+          <p>Ask about Dilshad Ahmad, contact information, pricing, or how to get started.</p>
+        </div>
+        
+        <div class="ai-feature-card">
+          <div class="ai-feature-icon">🎤</div>
+          <h3>Voice Enabled</h3>
+          <p>Toggle voice output to hear responses. Perfect for hands-free assistance!</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- AI Chat Section -->
+  <section class="section ai-section">
+    <div class="container">
+      <div class="ai-header scroll-reveal">
+        <h2>💬 Start Chatting</h2>
+        <p>Type your question below or click a quick question to get started</p>
+      </div>
+      
+      <div class="ai-chat-wrapper scroll-reveal">
+        <div id="ai-chat-container" class="ai-chat-container">
+          <div id="ai-chat-messages" class="ai-chat-messages">
+            <!-- Messages appear here -->
+          </div>
+          <div class="ai-chat-controls">
+            <input 
+              type="text" 
+              id="ai-chat-input" 
+              class="ai-chat-input"
+              placeholder="Ask me anything about Lumixsa AI..."
+              autocomplete="off"
+            >
+            <button id="ai-chat-voice" class="ai-chat-voice" title="Toggle voice">🔊</button>
+            <button id="ai-chat-send" class="ai-chat-send">Send</button>
+          </div>
+        </div>
+        
+        <div class="quick-questions">
+          <button class="quick-question-btn" onclick="askAI('What is Lumixsa AI?')">What is Lumixsa AI?</button>
+          <button class="quick-question-btn" onclick="askAI('List all tools')">List all tools</button>
+          <button class="quick-question-btn" onclick="askAI('Who is Dilshad Ahmad?')">About Dilshad Ahmad</button>
+          <button class="quick-question-btn" onclick="askAI('Contact information')">Contact info</button>
+          <button class="quick-question-btn" onclick="askAI('Help')">Help</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Sample Questions Section -->
+  <section class="section" style="background: var(--bg-secondary);">
+    <div class="container">
+      <div class="section-header scroll-reveal">
+        <h2>Example Questions</h2>
+        <p>Here are some things you can ask me</p>
+      </div>
+      
+      <div class="cards-grid">
+        <div class="card scroll-reveal">
+          <div class="card-icon">❓</div>
+          <h3>About the Platform</h3>
+          <ul style="text-align: left; color: var(--text-secondary);">
+            <li>"What is Lumixsa AI?"</li>
+            <li>"Who created this website?"</li>
+            <li>"Is this service free?"</li>
+            <li>"How do I get started?"</li>
+          </ul>
+        </div>
+        
+        <div class="card scroll-reveal">
+          <div class="card-icon">🛠️</div>
+          <h3>Tools & Features</h3>
+          <ul style="text-align: left; color: var(--text-secondary);">
+            <li>"What tools do you offer?"</li>
+            <li>"How does the Code Explainer work?"</li>
+            <li>"Tell me about the Caption Generator"</li>
+            <li>"What financial calculators do you have?"</li>
+          </ul>
+        </div>
+        
+        <div class="card scroll-reveal">
+          <div class="card-icon">📖</div>
+          <h3>Blog & Content</h3>
+          <ul style="text-align: left; color: var(--text-secondary);">
+            <li>"What blog articles do you have?"</li>
+            <li>"Tell me about investing"</li>
+            <li>"Do you have guides on credit cards?"</li>
+            <li>"What is FIRE movement?"</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA Section -->
+  <section class="section">
+    <div class="container">
+      <div class="glass scroll-reveal" style="padding: 4rem; text-align: center;">
+        <h2 class="text-gradient">Need More Help?</h2>
+        <p style="font-size: 1.25rem; max-width: 600px; margin: 1.5rem auto;">
+          If you need personalized assistance, feel free to reach out to Dilshad Ahmad directly.
+        </p>
+        <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
+          <a href="contact.html" class="btn btn-primary">
+            Contact Us
+          </a>
+          <a href="tools.html" class="btn btn-secondary">
+            Explore Tools
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <a href="index.html" class="logo">
+            <img src="https://i.ibb.co/LX7SHfCH/lumixsa-logo.jpg" alt="Lumixsa AI Logo" class="logo-img">
+            <span>Lumixsa AI</span>
+          </a>
+          <p>Advanced AI tools and financial guides for everyone. Built with passion by Dilshad Ahmad.</p>
+          <div class="contact-item" style="background: transparent; padding: 0; margin-top: 1rem;">
+            <div class="contact-icon" style="width: 40px; height: 40px; font-size: 1.25rem;">✉️</div>
+            <div>
+              <p style="margin: 0; font-size: 0.875rem; color: var(--text-muted);">Email us at</p>
+              <p style="margin: 0;">lumixsasupport@gmail.com</p>
+            </div>
+          </div>
+        </div>
+        
+        <div class="footer-links">
+          <h4>Quick Links</h4>
+          <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="tools.html">Tools</a></li>
+            <li><a href="blog.html">Blog</a></li>
+            <li><a href="ai-assistant.html">AI Assistant</a></li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="contact.html">Contact</a></li>
+          </ul>
+        </div>
+        
+        <div class="footer-links">
+          <h4>Tools</h4>
+          <ul>
+            <li><a href="tool-pages/explain-like-im-10.html">Explain Like I'm 10</a></li>
+            <li><a href="tool-pages/code-explainer.html">Code Explainer</a></li>
+            <li><a href="tool-pages/ai-caption-generator.html">Caption Generator</a></li>
+            <li><a href="tool-pages/password-generator.html">Password Generator</a></li>
+            <li><a href="tools.html">View All Tools</a></li>
+          </ul>
+        </div>
+        
+        <div class="footer-links">
+          <h4>Legal</h4>
+          <ul>
+            <li><a href="privacy-policy.html">Privacy Policy</a></li>
+            <li><a href="terms-conditions.html">Terms & Conditions</a></li>
+            <li><a href="disclaimer.html">Disclaimer</a></li>
+            <li><a href="sitemap.html">Sitemap</a></li>
+          </ul>
+        </div>
+      </div>
+      
+      <div class="footer-bottom">
+        <p>&copy; 2025 Lumixsa AI. All rights reserved. Managed by Dilshad Ahmad.</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="js/ai-assistant.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meme Generator - Lumixsa AI Tool</title>
+    <meta name="description" content="Create hilarious memes in seconds. Choose from templates or upload your own images.">
+    <link rel="icon" type="image/jpeg" href="https://i.ibb.co/LX7SHfCH/lumixsa-logo.jpg">
+    <link rel="apple-touch-icon" href="https://i.ibb.co/LX7SHfCH/lumixsa-logo.jpg">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/animations.css">
+    <link rel="stylesheet" href="../css/responsive.css">
+    <style>
+        .tool-container { max-width: 800px; margin: 0 auto; padding: 2rem; }
+        .meme-canvas-container { position: relative; display: inline-block; max-width: 100%; }
+        .meme-canvas { max-width: 100%; border-radius: var(--radius-lg); }
+        .template-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin-bottom: 1.5rem; }
+        .template-item { aspect-ratio: 1; background: var(--surface); border-radius: var(--radius-lg); display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all var(--transition-fast); border: 2px solid transparent; }
+        .template-item:hover { border-color: var(--primary); transform: scale(1.05); }
+        .template-item.selected { border-color: var(--primary); }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container">
+            <a href="../index.html" class="logo">
+                <img src="https://i.ibb.co/LX7SHfCH/lumixsa-logo.jpg" alt="Lumixsa AI Logo" class="logo-img" style="width: 40px; height: 40px; border-radius: 50%; object-fit: cover;">
+                <span class="logo-text">Lumixsa AI</span>
+            </a>
+            <div class="nav-links">
+                <a href="../index.html">Home</a>
+                <a href="../tools.html" class="active">Tools</a>
+                <a href="../blog.html">Blog</a>
+                <a href="../about.html">About</a>
+                <a href="../contact.html">Contact</a>
+            </div>
+            <button class="mobile-menu-btn" aria-label="Toggle menu"><span></span><span></span><span></span></button>
+        </div>
+    </nav>
+    <div class="mobile-nav">
+        <a href="../index.html">Home</a><a href="../tools.html">Tools</a><a href="../blog.html">Blog</a><a href="../about.html">About</a><a href="../contact.html">Contact</a>
+    </div>
+
+    <section class="hero" style="min-height: 40vh; padding-top: 120px;">
+        <div class="hero-bg"></div>
+        <div class="container">
+            <div class="hero-content" style="text-align: center;">
+                <span class="badge badge-primary mb-3">Fun Tool</span>
+                <h1>Meme Generator</h1>
+                <p>Create hilarious memes in seconds</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="section" style="padding-top: 0;">
+        <div class="tool-container">
+            <div class="glass" style="padding: 2rem; border-radius: 1.5rem;">
+                <label class="form-label">Choose a Template:</label>
+                <div class="template-grid">
+                    <div class="template-item selected" onclick="selectTemplate(0)" style="font-size: 3rem;">🐸</div>
+                    <div class="template-item" onclick="selectTemplate(1)" style="font-size: 3rem;">🐱</div>
+                    <div class="template-item" onclick="selectTemplate(2)" style="font-size: 3rem;">🤔</div>
+                    <div class="template-item" onclick="selectTemplate(3)" style="font-size: 3rem;">😂</div>
+                    <div class="template-item" onclick="selectTemplate(4)" style="font-size: 3rem;">🎉</div>
+                    <div class="template-item" onclick="selectTemplate(5)" style="font-size: 3rem;">💼</div>
+                </div>
+
+                <label class="form-label">Top Text:</label>
+                <input type="text" class="form-input" id="topText" placeholder="Enter top text" style="margin-bottom: 1rem;">
+
+                <label class="form-label">Bottom Text:</label>
+                <input type="text" class="form-input" id="bottomText" placeholder="Enter bottom text" style="margin-bottom: 1.5rem;">
+
+                <button class="btn btn-primary btn-lg" onclick="generateMeme()" style="width: 100%; margin-bottom: 1.5rem;">
+                    Generate Meme
+                </button>
+
+                <div style="text-align: center;" id="memeResult"></div>
+            </div>
+
+            <div style="margin-top: 2rem; text-align: center;">
+                <a href="../tools.html" class="btn btn-outline">← Back to All Tools</a>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-bottom" style="border-top: none; padding-top: 0;">
+                <p>&copy; 2025 Lumixsa AI. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="../js/main.js"></script>
+    <script src="../js/navigation.js"></script>
+    <script src="../js/chatbot.js"></script>
+    <script>
+        let selectedTemplate = 0;
+        const templates = ['🐸', '🐱', '🤔', '😂', '🎉', '💼'];
+        const bgColors = ['#4ade80', '#fbbf24', '#a78bfa', '#f472b6', '#60a5fa', '#9ca3af'];
+
+        function selectTemplate(index) {
+            selectedTemplate = index;
+            document.querySelectorAll('.template-item').forEach((item, i) => {
+                item.classList.toggle('selected', i === index);
+            });
+        }
+
+        function generateMeme() {
+            const topText = document.getElementById('topText').value.toUpperCase();
+            const bottomText = document.getElementById('bottomText').value.toUpperCase();
+            const container = document.getElementById('memeResult');
+
+            const canvas = document.createElement('canvas');
+            canvas.width = 500;
+            canvas.height = 500;
+            const ctx = canvas.getContext('2d');
+
+            // Background
+            ctx.fillStyle = bgColors[selectedTemplate];
+            ctx.fillRect(0, 0, 500, 500);
+
+            // Border
+            ctx.strokeStyle = '#1e293b';
+            ctx.lineWidth = 10;
+            ctx.strokeRect(5, 5, 490, 490);
+
+            // Emoji
+            ctx.font = '200px Arial';
+            ctx.textAlign = 'center';
+            ctx.fillText(templates[selectedTemplate], 250, 300);
+
+            // Top text
+            if (topText) {
+                ctx.fillStyle = 'white';
+                ctx.strokeStyle = 'black';
+                ctx.lineWidth = 8;
+                ctx.font = 'bold 40px Impact, Arial';
+                ctx.strokeText(topText, 250, 60);
+                ctx.fillText(topText, 250, 60);
+            }
+
+            // Bottom text
+            if (bottomText) {
+                ctx.fillStyle = 'white';
+                ctx.strokeStyle = 'black';
+                ctx.lineWidth = 8;
+                ctx.font = 'bold 40px Impact, Arial';
+                ctx.strokeText(bottomText, 250, 470);
+                ctx.fillText(bottomText, 250, 470);
+            }
+
+            container.innerHTML = '';
+            canvas.className = 'meme-canvas';
+            container.appendChild(canvas);
+
+            // Add download button
+            const downloadBtn = document.createElement('button');
+            downloadBtn.className = 'btn btn-secondary';
+            downloadBtn.style.marginTop = '1rem';
+            downloadBtn.textContent = 'Download Meme';
+            downloadBtn.onclick = () => {
+                const link = document.createElement('a');
+                link.download = 'lumixsa-meme.png';
+                link.href = canvas.toDataURL();
+                link.click();
+            };
+            container.appendChild(downloadBtn);
+        }
+    </script>
+</body>
+</html>

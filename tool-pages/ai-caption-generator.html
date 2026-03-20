@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Caption Generator - Lumixsa AI Tool</title>
+    <meta name="description" content="Create engaging captions for social media posts. Perfect for Instagram, Twitter, and LinkedIn.">
+    <link rel="icon" type="image/jpeg" href="https://i.ibb.co/LX7SHfCH/lumixsa-logo.jpg">
+    <link rel="apple-touch-icon" href="https://i.ibb.co/LX7SHfCH/lumixsa-logo.jpg">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/animations.css">
+    <link rel="stylesheet" href="../css/responsive.css">
+    <style>
+        .tool-container { max-width: 800px; margin: 0 auto; padding: 2rem; }
+        .caption-card { padding: 1.5rem; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); margin-bottom: 1rem; cursor: pointer; transition: all var(--transition-fast); }
+        .caption-card:hover { border-color: var(--primary); transform: translateX(5px); }
+        .platform-btn { padding: 0.5rem 1rem; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-full); cursor: pointer; transition: all var(--transition-fast); margin: 0.25rem; }
+        .platform-btn:hover, .platform-btn.active { background: var(--primary); border-color: var(--primary); color: white; }
+        .tone-btn { padding: 0.5rem 1rem; background: var(--surface-light); border: none; border-radius: var(--radius-md); cursor: pointer; transition: all var(--transition-fast); margin: 0.25rem; font-size: 0.875rem; }
+        .tone-btn:hover, .tone-btn.active { background: var(--accent); color: white; }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container">
+            <a href="../index.html" class="logo">
+                <img src="https://i.ibb.co/LX7SHfCH/lumixsa-logo.jpg" alt="Lumixsa AI Logo" class="logo-img" style="width: 40px; height: 40px; border-radius: 50%; object-fit: cover;">
+                <span class="logo-text">Lumixsa AI</span>
+            </a>
+            <div class="nav-links">
+                <a href="../index.html">Home</a>
+                <a href="../tools.html" class="active">Tools</a>
+                <a href="../blog.html">Blog</a>
+                <a href="../about.html">About</a>
+                <a href="../contact.html">Contact</a>
+            </div>
+            <button class="mobile-menu-btn" aria-label="Toggle menu"><span></span><span></span><span></span></button>
+        </div>
+    </nav>
+    <div class="mobile-nav">
+        <a href="../index.html">Home</a><a href="../tools.html">Tools</a><a href="../blog.html">Blog</a><a href="../about.html">About</a><a href="../contact.html">Contact</a>
+    </div>
+
+    <section class="hero" style="min-height: 40vh; padding-top: 120px;">
+        <div class="hero-bg"></div>
+        <div class="container">
+            <div class="hero-content" style="text-align: center;">
+                <span class="badge badge-primary mb-3">Social Media Tool</span>
+                <h1>AI Caption Generator</h1>
+                <p>Create engaging captions for your social media posts</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="section" style="padding-top: 0;">
+        <div class="tool-container">
+            <div class="glass" style="padding: 2rem; border-radius: 1.5rem;">
+                <label class="form-label">Select Platform:</label>
+                <div style="margin-bottom: 1.5rem;">
+                    <button class="platform-btn active" onclick="setPlatform('instagram')">Instagram</button>
+                    <button class="platform-btn" onclick="setPlatform('twitter')">Twitter/X</button>
+                    <button class="platform-btn" onclick="setPlatform('linkedin')">LinkedIn</button>
+                    <button class="platform-btn" onclick="setPlatform('facebook')">Facebook</button>
+                </div>
+
+                <label class="form-label">Select Tone:</label>
+                <div style="margin-bottom: 1.5rem;">
+                    <button class="tone-btn active" onclick="setTone('casual')">Casual</button>
+                    <button class="tone-btn" onclick="setTone('professional')">Professional</button>
+                    <button class="tone-btn" onclick="setTone('funny')">Funny</button>
+                    <button class="tone-btn" onclick="setTone('inspirational')">Inspirational</button>
+                    <button class="tone-btn" onclick="setTone('promotional')">Promotional</button>
+                </div>
+
+                <label class="form-label">Describe your post:</label>
+                <textarea class="form-input" id="postDescription" placeholder="e.g., A photo of my morning coffee at a cozy cafe" style="min-height: 100px; margin-bottom: 1.5rem;"></textarea>
+
+                <button class="btn btn-primary btn-lg" onclick="generateCaptions()" style="width: 100%; margin-bottom: 1.5rem;">
+                    Generate Captions
+                </button>
+
+                <div id="captionsContainer"></div>
+            </div>
+
+            <div style="margin-top: 2rem; text-align: center;">
+                <a href="../tools.html" class="btn btn-outline">← Back to All Tools</a>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-bottom" style="border-top: none; padding-top: 0;">
+                <p>&copy; 2025 Lumixsa AI. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="../js/main.js"></script>
+    <script src="../js/navigation.js"></script>
+    <script src="../js/chatbot.js"></script>
+    <script>
+        let currentPlatform = 'instagram';
+        let currentTone = 'casual';
+
+        const captionsDB = {
+            instagram: {
+                casual: ["Living my best life, one coffee at a time ☕✨", "Weekend vibes only 🌟", "Just here for the good times and tan lines 🌞"],
+                professional: ["Building something great, one step at a time. #EntrepreneurLife", "Success is a journey, not a destination. Keep pushing forward.", "Investing in yourself is the best investment you'll ever make."],
+                funny: ["My bed is a magical place where I suddenly remember everything I forgot to do 😅", "I'm not lazy, I'm on energy-saving mode 🔋", "Adulting is soup and I am a fork 🍴"],
+                inspirational: ["Your only limit is you. Break through it. 💪", "Dream big, work hard, stay focused. The world is yours.", "Every day is a fresh start. Make it count. ✨"],
+                promotional: ["New drop alert! 🚨 Check out our latest collection - link in bio!", "Sale ends tonight! Don't miss out on 50% off everything! 🛍️", "Transform your space with our premium collection. Shop now!"]
+            },
+            twitter: {
+                casual: ["Just vibing today tbh", "Another day, another coffee ☕", "Currently accepting good vibes only"],
+                professional: ["The key to success? Consistency and patience. Keep building.", "Your network is your net worth. Connect with intention.", "Small steps every day lead to massive results over time."],
+                funny: ["Me: I'll sleep early tonight. Also me at 3am: *googling if penguins have knees*", "My wallet is like an onion. Opening it makes me cry.", "I'm not arguing, I'm just explaining why I'm right 😌"],
+                inspirational: ["You are capable of amazing things. Believe it.", "The best time to start was yesterday. The second best time is now.", "Your potential is endless. Go do what you were created to do."],
+                promotional: ["🚨 Flash sale! 24 hours only. Don't miss out! 👇", "New blog post is live! Check it out and let me know your thoughts.", "Ready to level up? Our new course is now available! 🚀"]
+            },
+            linkedin: {
+                casual: ["Grateful for another week of growth and learning.", "Coffee first, then we change the world. ☕", "Teamwork makes the dream work. 🙌"],
+                professional: ["Excited to announce that I've just completed my certification in [field]! Looking forward to applying these new skills.", "Leadership is not about being in charge. It's about taking care of those in your charge.", "The future belongs to those who learn more skills and combine them in creative ways."],
+                funny: ["My job here is done.' - Me, after sending one email", "LinkedIn is just Facebook for people who wear suits.", "Professional tip: Always cc yourself on important emails. Future you will thank present you."],
+                inspirational: ["Success is not final, failure is not fatal: it is the courage to continue that counts.", "The only way to do great work is to love what you do.", "Your career is a marathon, not a sprint. Pace yourself."],
+                promotional: ["Proud to share that our company has achieved [milestone]! Thank you to our amazing team and customers.", "Now hiring! We're looking for passionate individuals to join our growing team. Apply today!", "Excited to launch our new product that will revolutionize [industry]. Learn more below!"]
+            },
+            facebook: {
+                casual: ["Enjoying the little things in life 🌸", "Family time is the best time ❤️", "Sunday funday with my favorite people!"],
+                professional: ["Hard work pays off! Excited to share my latest achievement.", "Never stop learning, never stop growing.", "Grateful for the opportunity to work with such an amazing team."],
+                funny: ["I put my phone in airplane mode, but it's not flying. Worst. Transformer. Ever.", "My housekeeping style is best described as 'there appears to have been a struggle'", "I'm on a seafood diet. I see food and I eat it. 🍕"],
+                inspirational: ["Every day may not be good, but there's something good in every day.", "Be the reason someone smiles today. 😊", "You are stronger than you think. Keep going."],
+                promotional: ["Big news! We're launching something special next week. Stay tuned! 🎉", "Thank you to all our customers for making us [achievement]! We couldn't do it without you.", "Join our community of [number] happy customers! Sign up today and get 20% off your first order."]
+            }
+        };
+
+        function setPlatform(platform) {
+            currentPlatform = platform;
+            document.querySelectorAll('.platform-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+        }
+
+        function setTone(tone) {
+            currentTone = tone;
+            document.querySelectorAll('.tone-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+        }
+
+        function generateCaptions() {
+            const description = document.getElementById('postDescription').value.trim();
+            const container = document.getElementById('captionsContainer');
+            
+            if (!description) {
+                showToast('Please describe your post first', 'error');
+                return;
+            }
+
+            const captions = captionsDB[currentPlatform][currentTone];
+            
+            container.innerHTML = `
+                <h4 style="margin-bottom: 1rem;">Generated Captions (${currentPlatform}, ${currentTone}):</h4>
+                ${captions.map((caption, idx) => `
+                    <div class="caption-card" onclick="copyToClipboard('${caption.replace(/'/g, "\\'")}', 'Caption copied!')">
+                        <p style="margin: 0;">${caption}</p>
+                        <p style="margin: 0.5rem 0 0 0; font-size: 0.8rem; color: var(--text-muted);">Click to copy</p>
+                    </div>
+                `).join('')}
+            `;
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Fake Data Generator - Lumixsa AI</title>
+  <meta name="description" content="Generate realistic test data for development and testing. Names, emails, addresses, and more.">
+  <link rel="icon" type="image/jpeg" href="https://i.ibb.co/LX7SHfCH/lumixsa-logo.jpg">
+  <link rel="apple-touch-icon" href="https://i.ibb.co/LX7SHfCH/lumixsa-logo.jpg">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/main.css">
+  <link rel="stylesheet" href="../css/animations.css">
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="../css/responsive.css">
+</head>
+<body>
+  <nav class="navbar">
+    <div class="container">
+      <a href="../index.html" class="logo">
+        <img src="https://i.ibb.co/LX7SHfCH/lumixsa-logo.jpg" alt="Lumixsa AI Logo" class="logo-img">
+        <span>Lumixsa AI</span>
+      </a>
+      <div class="nav-links">
+        <a href="../index.html">Home</a>
+        <a href="../tools.html" class="active">Tools</a>
+        <a href="../blog.html">Blog</a>
+        <a href="../about.html">About</a>
+        <a href="../contact.html">Contact</a>
+        <button class="theme-toggle" id="theme-toggle"><span class="theme-icon">☀️</span></button>
+      </div>
+      <button class="mobile-menu-btn"><span></span><span></span><span></span></button>
+    </div>
+  </nav>
+  <div class="mobile-nav">
+    <a href="../index.html">Home</a><a href="../tools.html">Tools</a><a href="../blog.html">Blog</a><a href="../about.html">About</a><a href="../contact.html">Contact</a>
+  </div>
+
+  <section class="section" style="padding-top: 120px;">
+    <div class="container">
+      <div class="text-center scroll-reveal">
+        <div class="hero-badge" style="display: inline-flex;"><span>🎲</span><span>Developer Tool</span></div>
+        <h1>Fake Data Generator</h1>
+        <p style="max-width: 600px; margin: 0 auto 2rem;">Generate realistic test data for development and testing purposes.</p>
+      </div>
+
+      <div class="tool-container scroll-reveal">
+        <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem; margin-bottom: 1.5rem;">
+          <div class="form-group">
+            <label>Data Type:</label>
+            <select id="data-type" class="tool-input" style="padding: 0.75rem;" onchange="updateFields()">
+              <option value="person">Person (Name, Email, Phone)</option>
+              <option value="address">Address</option>
+              <option value="company">Company</option>
+              <option value="creditCard">Credit Card</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Quantity:</label>
+            <select id="data-quantity" class="tool-input" style="padding: 0.75rem;">
+              <option value="5">5 items</option>
+              <option value="10" selected>10 items</option>
+              <option value="25">25 items</option>
+              <option value="50">50 items</option>
+            </select>
+          </div>
+        </div>
+        
+        <button class="btn btn-primary" onclick="generateData()" style="width: 100%;">Generate Data</button>
+        <div id="data-output" style="margin-top: 1.5rem;"></div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-bottom">
+        <p>&copy; 2025 Lumixsa AI. Managed by Dilshad Ahmad.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="../js/main.js"></script>
+  <script>
+    const firstNames = ['James', 'Mary', 'John', 'Patricia', 'Robert', 'Jennifer', 'Michael', 'Linda', 'William', 'Elizabeth', 'David', 'Barbara', 'Richard', 'Susan', 'Joseph', 'Jessica', 'Thomas', 'Sarah', 'Charles', 'Karen'];
+    const lastNames = ['Smith', 'Johnson', 'Williams', 'Brown', 'Jones', 'Garcia', 'Miller', 'Davis', 'Rodriguez', 'Martinez', 'Hernandez', 'Lopez', 'Gonzalez', 'Wilson', 'Anderson', 'Thomas', 'Taylor', 'Moore', 'Jackson', 'Martin'];
+    const domains = ['gmail.com', 'yahoo.com', 'hotmail.com', 'outlook.com', 'example.com', 'company.net'];
+    const streets = ['Main St', 'Oak Ave', 'Park Rd', 'Elm St', 'Maple Dr', 'Cedar Ln', 'Pine St', 'Washington Ave', 'Lake St', 'Hill Rd'];
+    const cities = ['New York', 'Los Angeles', 'Chicago', 'Houston', 'Phoenix', 'Philadelphia', 'San Antonio', 'San Diego', 'Dallas', 'San Jose'];
+    const states = ['CA', 'TX', 'FL', 'NY', 'PA', 'IL', 'OH', 'GA', 'NC', 'MI'];
+    const companies = ['TechCorp', 'Global Solutions', 'Innovation Labs', 'Digital Dynamics', 'Future Systems', 'Smart Industries', 'NextGen Tech', 'Cloud Nine', 'DataStream', 'CodeWorks'];
+
+    function randomItem(arr) {
+      return arr[Math.floor(Math.random() * arr.length)];
+    }
+
+    function generatePerson() {
+      const first = randomItem(firstNames);
+      const last = randomItem(lastNames);
+      const email = `${first.toLowerCase()}.${last.toLowerCase()}${Math.floor(Math.random() * 999)}@${randomItem(domains)}`;
+      const phone = `(${Math.floor(Math.random() * 900) + 100}) ${Math.floor(Math.random() * 900) + 100}-${Math.floor(Math.random() * 9000) + 1000}`;
+      return { first, last, email, phone };
+    }
+
+    function generateAddress() {
+      const number = Math.floor(Math.random() * 9999) + 1;
+      const street = randomItem(streets);
+      const city = randomItem(cities);
+      const state = randomItem(states);
+      const zip = Math.floor(Math.random() * 90000) + 10000;
+      return { address: `${number} ${street}`, city, state, zip };
+    }
+
+    function generateCompany() {
+      const name = randomItem(companies);
+      const domain = name.toLowerCase().replace(/\s/g, '') + '.com';
+      const phone = `(${Math.floor(Math.random() * 900) + 100}) ${Math.floor(Math.random() * 900) + 100}-${Math.floor(Math.random() * 9000) + 1000}`;
+      return { name, domain, phone };
+    }
+
+    function generateCreditCard() {
+      const types = ['Visa', 'MasterCard', 'Amex'];
+      const type = randomItem(types);
+      let number = '';
+      for (let i = 0; i < 16; i++) number += Math.floor(Math.random() * 10);
+      const expiry = `${Math.floor(Math.random() * 12) + 1}/${Math.floor(Math.random() * 10) + 25}`;
+      const cvv = Math.floor(Math.random() * 900) + 100;
+      return { type, number: number.match(/.{4}/g).join(' '), expiry, cvv };
+    }
+
+    function generateData() {
+      const type = document.getElementById('data-type').value;
+      const quantity = parseInt(document.getElementById('data-quantity').value);
+      const output = document.getElementById('data-output');
+      
+      let data = [];
+      for (let i = 0; i < quantity; i++) {
+        if (type === 'person') data.push(generatePerson());
+        else if (type === 'address') data.push(generateAddress());
+        else if (type === 'company') data.push(generateCompany());
+        else if (type === 'creditCard') data.push(generateCreditCard());
+      }
+
+      output.innerHTML = `
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+          <h4 style="margin: 0;">Generated Data:</h4>
+          <button onclick="copyAllData()" class="btn btn-secondary" style="padding: 0.5rem 1rem; font-size: 0.875rem;">Copy All</button>
+        </div>
+        <div style="background: var(--bg-secondary); padding: 1.5rem; border-radius: 0.75rem; overflow-x: auto;">
+          <pre id="data-json" style="margin: 0; font-family: monospace; font-size: 0.875rem; line-height: 1.6;">${JSON.stringify(data, null, 2)}</pre>
+        </div>
+      `;
+    }
+
+    function copyAllData() {
+      const text = document.getElementById('data-json').textContent;
+      navigator.clipboard.writeText(text);
+      alert('Data copied to clipboard!');
+    }
+  </script>
+</body>
+</html>

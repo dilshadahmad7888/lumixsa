@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Explain Like I'm 10 - Lumixsa AI Tool</title>
+    <meta name="description" content="Simplify complex topics into easy-to-understand explanations. Perfect for learning new concepts quickly.">
+    <link rel="icon" type="image/jpeg" href="https://i.ibb.co/LX7SHfCH/lumixsa-logo.jpg">
+    <link rel="apple-touch-icon" href="https://i.ibb.co/LX7SHfCH/lumixsa-logo.jpg">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/animations.css">
+    <link rel="stylesheet" href="../css/responsive.css">
+    <style>
+        .tool-container { max-width: 800px; margin: 0 auto; padding: 2rem; }
+        .tool-input { width: 100%; min-height: 120px; padding: 1rem; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); color: var(--text-primary); font-size: 1rem; resize: vertical; }
+        .tool-input:focus { outline: none; border-color: var(--primary); }
+        .tool-output { width: 100%; min-height: 200px; padding: 1.5rem; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); color: var(--text-primary); font-size: 1rem; line-height: 1.8; white-space: pre-wrap; }
+        .example-chip { display: inline-block; padding: 0.5rem 1rem; background: var(--surface-light); border-radius: var(--radius-full); font-size: 0.875rem; cursor: pointer; transition: all var(--transition-fast); margin: 0.25rem; }
+        .example-chip:hover { background: var(--primary); color: white; }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container">
+            <a href="../index.html" class="logo">
+                <img src="https://i.ibb.co/LX7SHfCH/lumixsa-logo.jpg" alt="Lumixsa AI Logo" class="logo-img" style="width: 40px; height: 40px; border-radius: 50%; object-fit: cover;">
+                <span class="logo-text">Lumixsa AI</span>
+            </a>
+            <div class="nav-links">
+                <a href="../index.html">Home</a>
+                <a href="../tools.html" class="active">Tools</a>
+                <a href="../blog.html">Blog</a>
+                <a href="../about.html">About</a>
+                <a href="../contact.html">Contact</a>
+            </div>
+            <button class="mobile-menu-btn" aria-label="Toggle menu"><span></span><span></span><span></span></button>
+        </div>
+    </nav>
+    <div class="mobile-nav">
+        <a href="../index.html">Home</a><a href="../tools.html">Tools</a><a href="../blog.html">Blog</a><a href="../about.html">About</a><a href="../contact.html">Contact</a>
+    </div>
+
+    <section class="hero" style="min-height: 40vh; padding-top: 120px;">
+        <div class="hero-bg"></div>
+        <div class="container">
+            <div class="hero-content" style="text-align: center;">
+                <span class="badge badge-primary mb-3">AI Tool</span>
+                <h1>Explain Like I'm 10</h1>
+                <p>Simplify complex topics into easy-to-understand explanations</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="section" style="padding-top: 0;">
+        <div class="tool-container">
+            <div class="glass" style="padding: 2rem; border-radius: 1.5rem;">
+                <label class="form-label">Enter a complex topic:</label>
+                <textarea class="tool-input" id="topicInput" placeholder="e.g., Quantum computing, Blockchain, Photosynthesis..."></textarea>
+                
+                <div style="margin: 1rem 0;">
+                    <span style="color: var(--text-secondary); font-size: 0.875rem;">Try examples:</span>
+                    <div style="margin-top: 0.5rem;">
+                        <span class="example-chip" onclick="setExample('Quantum computing')">Quantum computing</span>
+                        <span class="example-chip" onclick="setExample('Blockchain technology')">Blockchain</span>
+                        <span class="example-chip" onclick="setExample('How does the internet work')">Internet</span>
+                        <span class="example-chip" onclick="setExample('Artificial Intelligence')">AI</span>
+                        <span class="example-chip" onclick="setExample('Climate change')">Climate change</span>
+                    </div>
+                </div>
+
+                <button class="btn btn-primary btn-lg" onclick="explainTopic()" style="width: 100%; margin-bottom: 1.5rem;">
+                    Explain It Simply
+                </button>
+
+                <div id="outputContainer" style="display: none;">
+                    <label class="form-label">Simple Explanation:</label>
+                    <div class="tool-output" id="output"></div>
+                    <div style="display: flex; gap: 1rem; margin-top: 1rem;">
+                        <button class="btn btn-secondary" onclick="copyExplanation()">Copy</button>
+                        <button class="btn btn-secondary" onclick="speakExplanation()">🔊 Read Aloud</button>
+                    </div>
+                </div>
+            </div>
+
+            <div style="margin-top: 2rem; text-align: center;">
+                <a href="../tools.html" class="btn btn-outline">← Back to All Tools</a>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-bottom" style="border-top: none; padding-top: 0;">
+                <p>&copy; 2025 Lumixsa AI. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="../js/main.js"></script>
+    <script src="../js/navigation.js"></script>
+    <script src="../js/chatbot.js"></script>
+    <script>
+        const explanations = {
+            'quantum': "Imagine you have a magical coin that can be heads AND tails at the same time until you look at it. Quantum computers use these magical 'coins' called qubits to solve problems much faster than regular computers. It's like having a superpower that lets you try all possible answers at once!",
+            'blockchain': "Think of a blockchain like a digital diary that everyone can see, but nobody can erase or change. Each page (block) is connected to the previous one with a special code. This makes it super safe because if someone tries to cheat, everyone would notice!",
+            'internet': "The internet is like a giant spiderweb of computers talking to each other. When you send a message or watch a video, your computer breaks it into tiny pieces, sends them through different paths, and they get put back together at the other end - kind of like sending a puzzle through the mail!",
+            'ai': "Artificial Intelligence is like teaching a computer to learn from examples, just like you learn from experience. Show it thousands of pictures of cats, and it learns to recognize cats. It's like having a really smart assistant that never gets tired!",
+            'climate': "Earth is like a greenhouse. Certain gases in the air trap heat from the sun, keeping our planet warm. But when we burn fossil fuels (like coal and oil), we add too much of these gases. It's like adding too many blankets - the Earth gets too hot, causing problems for animals, plants, and people.",
+            'default': "That's an interesting topic! Here's a simple way to think about it: Imagine you're explaining this to a curious 10-year-old. Break it down into small, relatable pieces using everyday examples. The key is finding familiar comparisons that make the complex idea feel simple and fun to understand!"
+        };
+
+        function setExample(text) {
+            document.getElementById('topicInput').value = text;
+        }
+
+        function explainTopic() {
+            const input = document.getElementById('topicInput').value.toLowerCase().trim();
+            const outputContainer = document.getElementById('outputContainer');
+            const output = document.getElementById('output');
+
+            if (!input) {
+                showToast('Please enter a topic first!', 'error');
+                return;
+            }
+
+            let explanation = explanations.default;
+            
+            for (const key in explanations) {
+                if (input.includes(key)) {
+                    explanation = explanations[key];
+                    break;
+                }
+            }
+
+            output.textContent = explanation;
+            outputContainer.style.display = 'block';
+            outputContainer.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function copyExplanation() {
+            const text = document.getElementById('output').textContent;
+            copyToClipboard(text, 'Explanation copied!');
+        }
+
+        function speakExplanation() {
+            const text = document.getElementById('output').textContent;
+            if ('speechSynthesis' in window) {
+                const utterance = new SpeechSynthesisUtterance(text);
+                utterance.rate = 0.9;
+                speechSynthesis.speak(utterance);
+            } else {
+                showToast('Text-to-speech not supported in your browser', 'error');
+            }
+        }
+    </script>
+</body>
+</html>

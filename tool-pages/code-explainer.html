@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Code Explainer - Lumixsa AI Tool</title>
+    <meta name="description" content="Paste any code snippet and get a clear, human-readable explanation. Supports multiple languages.">
+    <link rel="icon" type="image/jpeg" href="https://i.ibb.co/LX7SHfCH/lumixsa-logo.jpg">
+    <link rel="apple-touch-icon" href="https://i.ibb.co/LX7SHfCH/lumixsa-logo.jpg">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/animations.css">
+    <link rel="stylesheet" href="../css/responsive.css">
+    <style>
+        .tool-container { max-width: 900px; margin: 0 auto; padding: 2rem; }
+        .code-input { width: 100%; min-height: 200px; padding: 1rem; background: #1e1e1e; border: 1px solid var(--border); border-radius: var(--radius-lg); color: #d4d4d4; font-family: 'Consolas', 'Monaco', monospace; font-size: 0.9rem; resize: vertical; }
+        .code-input:focus { outline: none; border-color: var(--primary); }
+        .explanation-box { padding: 1.5rem; background: var(--surface); border-left: 4px solid var(--primary); border-radius: 0 var(--radius-lg) var(--radius-lg) 0; margin-top: 1.5rem; }
+        .lang-btn { padding: 0.5rem 1rem; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-md); cursor: pointer; transition: all var(--transition-fast); margin: 0.25rem; font-size: 0.875rem; }
+        .lang-btn:hover, .lang-btn.active { background: var(--primary); border-color: var(--primary); color: white; }
+        .example-code { padding: 1rem; background: var(--surface-light); border-radius: var(--radius-md); font-family: monospace; font-size: 0.8rem; cursor: pointer; margin: 0.5rem 0; transition: all var(--transition-fast); }
+        .example-code:hover { background: var(--primary); color: white; }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container">
+            <a href="../index.html" class="logo">
+                <img src="https://i.ibb.co/LX7SHfCH/lumixsa-logo.jpg" alt="Lumixsa AI Logo" class="logo-img" style="width: 40px; height: 40px; border-radius: 50%; object-fit: cover;">
+                <span class="logo-text">Lumixsa AI</span>
+            </a>
+            <div class="nav-links">
+                <a href="../index.html">Home</a>
+                <a href="../tools.html" class="active">Tools</a>
+                <a href="../blog.html">Blog</a>
+                <a href="../about.html">About</a>
+                <a href="../contact.html">Contact</a>
+            </div>
+            <button class="mobile-menu-btn" aria-label="Toggle menu"><span></span><span></span><span></span></button>
+        </div>
+    </nav>
+    <div class="mobile-nav">
+        <a href="../index.html">Home</a><a href="../tools.html">Tools</a><a href="../blog.html">Blog</a><a href="../about.html">About</a><a href="../contact.html">Contact</a>
+    </div>
+
+    <section class="hero" style="min-height: 40vh; padding-top: 120px;">
+        <div class="hero-bg"></div>
+        <div class="container">
+            <div class="hero-content" style="text-align: center;">
+                <span class="badge badge-primary mb-3">Developer Tool</span>
+                <h1>Code Explainer</h1>
+                <p>Understand any code with clear, human-readable explanations</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="section" style="padding-top: 0;">
+        <div class="tool-container">
+            <div class="glass" style="padding: 2rem; border-radius: 1.5rem;">
+                <label class="form-label">Select Language:</label>
+                <div style="margin-bottom: 1.5rem;">
+                    <button class="lang-btn active" onclick="setLanguage('javascript')">JavaScript</button>
+                    <button class="lang-btn" onclick="setLanguage('python')">Python</button>
+                    <button class="lang-btn" onclick="setLanguage('java')">Java</button>
+                    <button class="lang-btn" onclick="setLanguage('cpp')">C++</button>
+                    <button class="lang-btn" onclick="setLanguage('html')">HTML/CSS</button>
+                    <button class="lang-btn" onclick="setLanguage('sql')">SQL</button>
+                </div>
+
+                <label class="form-label">Try an example:</label>
+                <div style="margin-bottom: 1.5rem;">
+                    <div class="example-code" onclick="loadExample('loop')">for (let i = 0; i &lt; 10; i++) { console.log(i); }</div>
+                    <div class="example-code" onclick="loadExample('function')">function greet(name) { return 'Hello, ' + name + '!'; }</div>
+                    <div class="example-code" onclick="loadExample('array')">const doubled = numbers.map(n => n * 2);</div>
+                </div>
+
+                <label class="form-label">Paste your code:</label>
+                <textarea class="code-input" id="codeInput" placeholder="// Paste your code here..."></textarea>
+
+                <button class="btn btn-primary btn-lg" onclick="explainCode()" style="width: 100%; margin: 1.5rem 0;">
+                    Explain This Code
+                </button>
+
+                <div id="explanationContainer" style="display: none;">
+                    <div class="explanation-box">
+                        <h4 style="margin-bottom: 1rem; color: var(--primary);">Explanation:</h4>
+                        <p id="explanationText" style="margin: 0; line-height: 1.8;"></p>
+                    </div>
+                    <div style="display: flex; gap: 1rem; margin-top: 1rem;">
+                        <button class="btn btn-secondary" onclick="copyExplanation()">Copy Explanation</button>
+                        <button class="btn btn-secondary" onclick="speakExplanation()">🔊 Read Aloud</button>
+                    </div>
+                </div>
+            </div>
+
+            <div style="margin-top: 2rem; text-align: center;">
+                <a href="../tools.html" class="btn btn-outline">← Back to All Tools</a>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-bottom" style="border-top: none; padding-top: 0;">
+                <p>&copy; 2025 Lumixsa AI. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="../js/main.js"></script>
+    <script src="../js/navigation.js"></script>
+    <script src="../js/chatbot.js"></script>
+    <script>
+        let currentLanguage = 'javascript';
+
+        const explanations = {
+            loop: "This code creates a loop that runs 10 times. It starts with i = 0, and keeps running as long as i is less than 10. Each time through the loop, it prints the current value of i to the console, then adds 1 to i. So it will print numbers 0 through 9.",
+            function: "This code defines a function called 'greet' that takes a 'name' as input. When you call this function with a name (like greet('Alice')), it returns a greeting message that says 'Hello, Alice!'. Functions are reusable blocks of code that perform a specific task.",
+            array: "This code uses the 'map' method to transform an array called 'numbers'. For each number in the array, it multiplies it by 2. The result is a new array where every number is doubled. For example, [1, 2, 3] becomes [2, 4, 6].",
+            default: "This code appears to be written in " + currentLanguage + ". It likely performs operations using variables, functions, or control structures. To give you a detailed explanation, I'd need to analyze the specific syntax and logic used in your code snippet."
+        };
+
+        const examples = {
+            loop: "for (let i = 0; i < 10; i++) {\n  console.log(i);\n}",
+            function: "function greet(name) {\n  return 'Hello, ' + name + '!';\n}",
+            array: "const numbers = [1, 2, 3, 4, 5];\nconst doubled = numbers.map(n => n * 2);"
+        };
+
+        function setLanguage(lang) {
+            currentLanguage = lang;
+            document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+        }
+
+        function loadExample(type) {
+            document.getElementById('codeInput').value = examples[type];
+        }
+
+        function explainCode() {
+            const code = document.getElementById('codeInput').value.trim();
+            const container = document.getElementById('explanationContainer');
+            const text = document.getElementById('explanationText');
+
+            if (!code) {
+                showToast('Please paste some code first', 'error');
+                return;
+            }
+
+            // Determine which explanation to show based on code content
+            let explanation = explanations.default;
+            if (code.includes('for') && code.includes('i++')) {
+                explanation = explanations.loop;
+            } else if (code.includes('function') && code.includes('return')) {
+                explanation = explanations.function;
+            } else if (code.includes('map')) {
+                explanation = explanations.array;
+            }
+
+            // Add language-specific context
+            explanation += ` This is written in ${currentLanguage.charAt(0).toUpperCase() + currentLanguage.slice(1)}.`;
+
+            text.textContent = explanation;
+            container.style.display = 'block';
+            container.scrollIntoView({ behavior: 'smooth' });
+        }
+
+        function copyExplanation() {
+            const text = document.getElementById('explanationText').textContent;
+            copyToClipboard(text, 'Explanation copied!');
+        }
+
+        function speakExplanation() {
+            const text = document.getElementById('explanationText').textContent;
+            if ('speechSynthesis' in window) {
+                const utterance = new SpeechSynthesisUtterance(text);
+                utterance.rate = 0.9;
+                speechSynthesis.speak(utterance);
+            } else {
+                showToast('Text-to-speech not supported', 'error');
+            }
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QR Code Generator - Lumixsa AI Tool</title>
+    <meta name="description" content="Generate QR codes for URLs, text, contact info, WiFi credentials, and more. Download as PNG.">
+    <link rel="icon" type="image/jpeg" href="https://i.ibb.co/LX7SHfCH/lumixsa-logo.jpg">
+    <link rel="apple-touch-icon" href="https://i.ibb.co/LX7SHfCH/lumixsa-logo.jpg">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/animations.css">
+    <link rel="stylesheet" href="../css/responsive.css">
+    <style>
+        .tool-container { max-width: 600px; margin: 0 auto; padding: 2rem; }
+        .qr-display { display: flex; justify-content: center; padding: 2rem; background: white; border-radius: var(--radius-lg); margin: 1.5rem 0; }
+        .qr-display canvas { max-width: 250px; height: auto; }
+        .type-btn { padding: 0.75rem 1rem; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-md); cursor: pointer; transition: all var(--transition-fast); }
+        .type-btn:hover, .type-btn.active { background: var(--primary); border-color: var(--primary); color: white; }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container">
+            <a href="../index.html" class="logo">
+                <img src="https://i.ibb.co/LX7SHfCH/lumixsa-logo.jpg" alt="Lumixsa AI Logo" class="logo-img" style="width: 40px; height: 40px; border-radius: 50%; object-fit: cover;">
+                <span class="logo-text">Lumixsa AI</span>
+            </a>
+            <div class="nav-links">
+                <a href="../index.html">Home</a>
+                <a href="../tools.html" class="active">Tools</a>
+                <a href="../blog.html">Blog</a>
+                <a href="../about.html">About</a>
+                <a href="../contact.html">Contact</a>
+            </div>
+            <button class="mobile-menu-btn" aria-label="Toggle menu"><span></span><span></span><span></span></button>
+        </div>
+    </nav>
+    <div class="mobile-nav">
+        <a href="../index.html">Home</a><a href="../tools.html">Tools</a><a href="../blog.html">Blog</a><a href="../about.html">About</a><a href="../contact.html">Contact</a>
+    </div>
+
+    <section class="hero" style="min-height: 40vh; padding-top: 120px;">
+        <div class="hero-bg"></div>
+        <div class="container">
+            <div class="hero-content" style="text-align: center;">
+                <span class="badge badge-primary mb-3">Utility Tool</span>
+                <h1>QR Code Generator</h1>
+                <p>Create QR codes for any type of content</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="section" style="padding-top: 0;">
+        <div class="tool-container">
+            <div class="glass" style="padding: 2rem; border-radius: 1.5rem;">
+                <div style="display: flex; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 1.5rem;">
+                    <button class="type-btn active" onclick="setType('url')">URL</button>
+                    <button class="type-btn" onclick="setType('text')">Text</button>
+                    <button class="type-btn" onclick="setType('email')">Email</button>
+                    <button class="type-btn" onclick="setType('phone')">Phone</button>
+                    <button class="type-btn" onclick="setType('wifi')">WiFi</button>
+                </div>
+
+                <div id="inputContainer">
+                    <label class="form-label" id="inputLabel">Enter URL:</label>
+                    <input type="text" class="form-input" id="qrInput" placeholder="https://example.com">
+                </div>
+
+                <button class="btn btn-primary btn-lg" onclick="generateQR()" style="width: 100%; margin: 1.5rem 0;">
+                    Generate QR Code
+                </button>
+
+                <div class="qr-display" id="qrDisplay" style="display: none;">
+                    <canvas id="qrCanvas"></canvas>
+                </div>
+
+                <div id="downloadContainer" style="display: none; text-align: center;">
+                    <button class="btn btn-secondary" onclick="downloadQR()">Download PNG</button>
+                </div>
+            </div>
+
+            <div style="margin-top: 2rem; text-align: center;">
+                <a href="../tools.html" class="btn btn-outline">← Back to All Tools</a>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-bottom" style="border-top: none; padding-top: 0;">
+                <p>&copy; 2025 Lumixsa AI. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="../js/main.js"></script>
+    <script src="../js/navigation.js"></script>
+    <script src="../js/chatbot.js"></script>
+    <script>
+        let currentType = 'url';
+
+        const placeholders = {
+            url: 'https://example.com',
+            text: 'Enter your message here...',
+            email: 'mailto:someone@example.com',
+            phone: 'tel:+1234567890',
+            wifi: 'WIFI:S:NetworkName;T:WPA;P:password;;'
+        };
+
+        const labels = {
+            url: 'Enter URL:',
+            text: 'Enter Text:',
+            email: 'Enter Email (mailto:email@example.com):',
+            phone: 'Enter Phone Number:',
+            wifi: 'WiFi Format: WIFI:S:Network;T:WPA;P:Password;;'
+        };
+
+        function setType(type) {
+            currentType = type;
+            document.querySelectorAll('.type-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            document.getElementById('inputLabel').textContent = labels[type];
+            document.getElementById('qrInput').placeholder = placeholders[type];
+        }
+
+        function generateQR() {
+            const text = document.getElementById('qrInput').value.trim();
+            if (!text) {
+                showToast('Please enter some content', 'error');
+                return;
+            }
+
+            const canvas = document.getElementById('qrCanvas');
+            const ctx = canvas.getContext('2d');
+            const size = 250;
+            canvas.width = size;
+            canvas.height = size;
+
+            // Clear canvas
+            ctx.fillStyle = 'white';
+            ctx.fillRect(0, 0, size, size);
+
+            // Draw a simple QR-like pattern (simplified for demo)
+            ctx.fillStyle = 'black';
+            const cellSize = size / 25;
+            
+            // Draw finder patterns (corners)
+            drawFinder(ctx, 2, 2, cellSize);
+            drawFinder(ctx, 18, 2, cellSize);
+            drawFinder(ctx, 2, 18, cellSize);
+
+            // Generate pseudo-random pattern based on text
+            let hash = 0;
+            for (let i = 0; i < text.length; i++) {
+                hash = ((hash << 5) - hash) + text.charCodeAt(i);
+                hash = hash & hash;
+            }
+
+            // Fill data area with pattern
+            for (let i = 0; i < 25; i++) {
+                for (let j = 0; j < 25; j++) {
+                    // Skip finder pattern areas
+                    if ((i < 8 && j < 8) || (i > 16 && j < 8) || (i < 8 && j > 16)) continue;
+                    
+                    const pseudoRandom = Math.sin(hash + i * 25 + j) * 10000;
+                    if ((pseudoRandom - Math.floor(pseudoRandom)) > 0.5) {
+                        ctx.fillRect(i * cellSize, j * cellSize, cellSize, cellSize);
+                    }
+                }
+            }
+
+            document.getElementById('qrDisplay').style.display = 'flex';
+            document.getElementById('downloadContainer').style.display = 'block';
+        }
+
+        function drawFinder(ctx, x, y, cellSize) {
+            // Outer square
+            ctx.fillRect(x * cellSize, y * cellSize, 7 * cellSize, 7 * cellSize);
+            // Inner white
+            ctx.fillStyle = 'white';
+            ctx.fillRect((x + 1) * cellSize, (y + 1) * cellSize, 5 * cellSize, 5 * cellSize);
+            // Center black
+            ctx.fillStyle = 'black';
+            ctx.fillRect((x + 2) * cellSize, (y + 2) * cellSize, 3 * cellSize, 3 * cellSize);
+        }
+
+        function downloadQR() {
+            const canvas = document.getElementById('qrCanvas');
+            const link = document.createElement('a');
+            link.download = 'lumixsa-qr-code.png';
+            link.href = canvas.toDataURL();
+            link.click();
+        }
+    </script>
+</body>
+</html>

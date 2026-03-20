@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Habit Tracker Dashboard - Lumixsa AI</title>
+  <meta name="description" content="Build better habits with our visual tracking system. Set goals, track progress, and maintain streaks.">
+  <link rel="icon" type="image/jpeg" href="https://i.ibb.co/LX7SHfCH/lumixsa-logo.jpg">
+  <link rel="apple-touch-icon" href="https://i.ibb.co/LX7SHfCH/lumixsa-logo.jpg">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/main.css">
+  <link rel="stylesheet" href="../css/animations.css">
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="../css/responsive.css">
+</head>
+<body>
+  <nav class="navbar">
+    <div class="container">
+      <a href="../index.html" class="logo">
+        <img src="https://i.ibb.co/LX7SHfCH/lumixsa-logo.jpg" alt="Lumixsa AI Logo" class="logo-img">
+        <span>Lumixsa AI</span>
+      </a>
+      <div class="nav-links">
+        <a href="../index.html">Home</a>
+        <a href="../tools.html" class="active">Tools</a>
+        <a href="../blog.html">Blog</a>
+        <a href="../about.html">About</a>
+        <a href="../contact.html">Contact</a>
+        <button class="theme-toggle" id="theme-toggle"><span class="theme-icon">☀️</span></button>
+      </div>
+      <button class="mobile-menu-btn"><span></span><span></span><span></span></button>
+    </div>
+  </nav>
+  <div class="mobile-nav">
+    <a href="../index.html">Home</a><a href="../tools.html">Tools</a><a href="../blog.html">Blog</a><a href="../about.html">About</a><a href="../contact.html">Contact</a>
+  </div>
+
+  <section class="section" style="padding-top: 120px;">
+    <div class="container">
+      <div class="text-center scroll-reveal">
+        <div class="hero-badge" style="display: inline-flex;"><span>📊</span><span>Productivity</span></div>
+        <h1>Habit Tracker Dashboard</h1>
+        <p style="max-width: 600px; margin: 0 auto 2rem;">Build better habits one day at a time. Track your progress and maintain streaks.</p>
+      </div>
+
+      <div class="tool-container scroll-reveal">
+        <div style="display: flex; gap: 1rem; margin-bottom: 2rem;">
+          <input type="text" id="habit-input" class="tool-input" placeholder="Enter a new habit (e.g., Drink 8 glasses of water)" style="flex: 1; margin-bottom: 0;">
+          <button class="btn btn-primary" onclick="addHabit()">Add Habit</button>
+        </div>
+
+        <div id="habits-list"></div>
+
+        <div style="margin-top: 2rem; padding: 1.5rem; background: var(--bg-secondary); border-radius: 0.75rem;">
+          <h4>Your Progress</h4>
+          <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin-top: 1rem; text-align: center;">
+            <div>
+              <div style="font-size: 2rem; font-weight: 700; color: var(--accent-primary);" id="total-habits">0</div>
+              <div style="color: var(--text-muted);">Total Habits</div>
+            </div>
+            <div>
+              <div style="font-size: 2rem; font-weight: 700; color: var(--success);" id="completed-today">0</div>
+              <div style="color: var(--text-muted);">Completed Today</div>
+            </div>
+            <div>
+              <div style="font-size: 2rem; font-weight: 700; color: var(--accent-cyan);" id="current-streak">0</div>
+              <div style="color: var(--text-muted);">Best Streak</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-bottom">
+        <p>&copy; 2025 Lumixsa AI. Managed by Dilshad Ahmad.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="../js/main.js"></script>
+  <script>
+    let habits = JSON.parse(localStorage.getItem('lumixsa-habits')) || [];
+
+    function saveHabits() {
+      localStorage.setItem('lumixsa-habits', JSON.stringify(habits));
+      updateStats();
+    }
+
+    function addHabit() {
+      const input = document.getElementById('habit-input');
+      const name = input.value.trim();
+      
+      if (!name) return;
+      
+      habits.push({
+        id: Date.now(),
+        name: name,
+        completed: [],
+        created: new Date().toISOString()
+      });
+      
+      input.value = '';
+      saveHabits();
+      renderHabits();
+    }
+
+    function toggleHabit(id) {
+      const habit = habits.find(h => h.id === id);
+      if (!habit) return;
+      
+      const today = new Date().toDateString();
+      const index = habit.completed.indexOf(today);
+      
+      if (index > -1) {
+        habit.completed.splice(index, 1);
+      } else {
+        habit.completed.push(today);
+      }
+      
+      saveHabits();
+      renderHabits();
+    }
+
+    function deleteHabit(id) {
+      habits = habits.filter(h => h.id !== id);
+      saveHabits();
+      renderHabits();
+    }
+
+    function getStreak(completed) {
+      if (completed.length === 0) return 0;
+      
+      const dates = completed.map(d => new Date(d)).sort((a, b) => b - a);
+      let streak = 0;
+      const today = new Date();
+      today.setHours(0, 0, 0, 0);
+      
+      for (let i = 0; i < dates.length; i++) {
+        const checkDate = new Date(today);
+        checkDate.setDate(checkDate.getDate() - i);
+        
+        if (dates[i].toDateString() === checkDate.toDateString()) {
+          streak++;
+        } else if (i === 0 && dates[i].toDateString() === new Date(today.getTime() - 86400000).toDateString()) {
+          streak++;
+        } else {
+          break;
+        }
+      }
+      
+      return streak;
+    }
+
+    function renderHabits() {
+      const container = document.getElementById('habits-list');
+      
+      if (habits.length === 0) {
+        container.innerHTML = '<p style="text-align: center; color: var(--text-muted);">No habits yet. Add one above to get started!</p>';
+        return;
+      }
+      
+      container.innerHTML = habits.map(habit => {
+        const today = new Date().toDateString();
+        const isCompleted = habit.completed.includes(today);
+        const streak = getStreak(habit.completed);
+        
+        return `
+          <div style="display: flex; align-items: center; justify-content: space-between; padding: 1rem; background: var(--bg-secondary); border-radius: 0.75rem; margin-bottom: 0.75rem;">
+            <div style="display: flex; align-items: center; gap: 1rem;">
+              <button onclick="toggleHabit(${habit.id})" style="width: 28px; height: 28px; border-radius: 50%; border: 2px solid ${isCompleted ? 'var(--success)' : 'var(--border-color)'}; background: ${isCompleted ? 'var(--success)' : 'transparent'}; color: white; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 1rem;">
+                ${isCompleted ? '✓' : ''}
+              </button>
+              <span style="${isCompleted ? 'text-decoration: line-through; opacity: 0.6;' : ''}">${habit.name}</span>
+            </div>
+            <div style="display: flex; align-items: center; gap: 1rem;">
+              <span style="color: var(--accent-cyan); font-size: 0.875rem;">🔥 ${streak} day streak</span>
+              <button onclick="deleteHabit(${habit.id})" style="background: none; border: none; color: var(--error); cursor: pointer; font-size: 1.25rem;">×</button>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function updateStats() {
+      document.getElementById('total-habits').textContent = habits.length;
+      
+      const today = new Date().toDateString();
+      const completedToday = habits.filter(h => h.completed.includes(today)).length;
+      document.getElementById('completed-today').textContent = completedToday;
+      
+      const bestStreak = Math.max(...habits.map(h => getStreak(h.completed)), 0);
+      document.getElementById('current-streak').textContent = bestStreak;
+    }
+
+    // Initialize
+    renderHabits();
+    updateStats();
+  </script>
+</body>
+</html>

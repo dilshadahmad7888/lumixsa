@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Meme Generator - Lumixsa AI</title>
+  <meta name="description" content="Create custom memes with our easy-to-use generator. Add text to popular templates and share.">
+  <link rel="icon" type="image/jpeg" href="https://i.ibb.co/LX7SHfCH/lumixsa-logo.jpg">
+  <link rel="apple-touch-icon" href="https://i.ibb.co/LX7SHfCH/lumixsa-logo.jpg">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/main.css">
+  <link rel="stylesheet" href="../css/animations.css">
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="../css/responsive.css">
+  <style>
+    .meme-canvas { max-width: 100%; border-radius: 0.5rem; }
+    .meme-template { cursor: pointer; border: 3px solid transparent; border-radius: 0.5rem; transition: all 0.3s; }
+    .meme-template:hover, .meme-template.active { border-color: var(--accent-primary); }
+  </style>
+</head>
+<body>
+  <nav class="navbar">
+    <div class="container">
+      <a href="../index.html" class="logo">
+        <img src="https://i.ibb.co/LX7SHfCH/lumixsa-logo.jpg" alt="Lumixsa AI Logo" class="logo-img">
+        <span>Lumixsa AI</span>
+      </a>
+      <div class="nav-links">
+        <a href="../index.html">Home</a>
+        <a href="../tools.html" class="active">Tools</a>
+        <a href="../blog.html">Blog</a>
+        <a href="../about.html">About</a>
+        <a href="../contact.html">Contact</a>
+        <button class="theme-toggle" id="theme-toggle"><span class="theme-icon">☀️</span></button>
+      </div>
+      <button class="mobile-menu-btn"><span></span><span></span><span></span></button>
+    </div>
+  </nav>
+  <div class="mobile-nav">
+    <a href="../index.html">Home</a><a href="../tools.html">Tools</a><a href="../blog.html">Blog</a><a href="../about.html">About</a><a href="../contact.html">Contact</a>
+  </div>
+
+  <section class="section" style="padding-top: 120px;">
+    <div class="container">
+      <div class="text-center scroll-reveal">
+        <div class="hero-badge" style="display: inline-flex;"><span>😂</span><span>Fun Tool</span></div>
+        <h1>Meme Generator</h1>
+        <p style="max-width: 600px; margin: 0 auto 2rem;">Create custom memes with text on popular templates.</p>
+      </div>
+
+      <div class="tool-container scroll-reveal">
+        <div style="margin-bottom: 1.5rem;">
+          <label style="display: block; margin-bottom: 0.75rem; font-weight: 500;">Choose Template:</label>
+          <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem;">
+            <div class="meme-template active" onclick="selectTemplate('drake')" data-template="drake" style="aspect-ratio: 1; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); display: flex; align-items: center; justify-content: center; font-size: 2rem;">🎭</div>
+            <div class="meme-template" onclick="selectTemplate('distracted')" data-template="distracted" style="aspect-ratio: 1; background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); display: flex; align-items: center; justify-content: center; font-size: 2rem;">👀</div>
+            <div class="meme-template" onclick="selectTemplate('buttons')" data-template="buttons" style="aspect-ratio: 1; background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); display: flex; align-items: center; justify-content: center; font-size: 2rem;">🔘</div>
+            <div class="meme-template" onclick="selectTemplate('change')" data-template="change" style="aspect-ratio: 1; background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%); display: flex; align-items: center; justify-content: center; font-size: 2rem;">🦋</div>
+          </div>
+        </div>
+
+        <div style="display: grid; gap: 1rem; margin-bottom: 1.5rem;">
+          <div class="form-group">
+            <label>Top Text:</label>
+            <input type="text" id="meme-top" class="tool-input" placeholder="Top text..." maxlength="50">
+          </div>
+          <div class="form-group">
+            <label>Bottom Text:</label>
+            <input type="text" id="meme-bottom" class="tool-input" placeholder="Bottom text..." maxlength="50">
+          </div>
+        </div>
+
+        <button class="btn btn-primary" onclick="generateMeme()" style="width: 100%;">Generate Meme</button>
+
+        <div id="meme-result" style="margin-top: 1.5rem; text-align: center;"></div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-bottom">
+        <p>&copy; 2025 Lumixsa AI. Managed by Dilshad Ahmad.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="../js/main.js"></script>
+  <script>
+    let currentTemplate = 'drake';
+
+    function selectTemplate(template) {
+      currentTemplate = template;
+      document.querySelectorAll('.meme-template').forEach(el => el.classList.remove('active'));
+      document.querySelector(`[data-template="${template}"]`).classList.add('active');
+    }
+
+    function generateMeme() {
+      const topText = document.getElementById('meme-top').value.toUpperCase();
+      const bottomText = document.getElementById('meme-bottom').value.toUpperCase();
+      const output = document.getElementById('meme-result');
+
+      // Create canvas-based meme
+      const canvas = document.createElement('canvas');
+      canvas.width = 500;
+      canvas.height = 500;
+      const ctx = canvas.getContext('2d');
+
+      // Background based on template
+      const gradients = {
+        drake: ['#667eea', '#764ba2'],
+        distracted: ['#f093fb', '#f5576c'],
+        buttons: ['#4facfe', '#00f2fe'],
+        change: ['#43e97b', '#38f9d7']
+      };
+
+      const gradient = ctx.createLinearGradient(0, 0, 500, 500);
+      gradient.addColorStop(0, gradients[currentTemplate][0]);
+      gradient.addColorStop(1, gradients[currentTemplate][1]);
+      ctx.fillStyle = gradient;
+      ctx.fillRect(0, 0, 500, 500);
+
+      // Add template indicator
+      ctx.fillStyle = 'rgba(255,255,255,0.3)';
+      ctx.font = 'bold 120px Arial';
+      ctx.textAlign = 'center';
+      ctx.fillText(currentTemplate === 'drake' ? '🎭' : currentTemplate === 'distracted' ? '👀' : currentTemplate === 'buttons' ? '🔘' : '🦋', 250, 280);
+
+      // Top text
+      if (topText) {
+        ctx.fillStyle = 'white';
+        ctx.strokeStyle = 'black';
+        ctx.lineWidth = 8;
+        ctx.font = 'bold 40px Impact, Arial';
+        ctx.textAlign = 'center';
+        ctx.strokeText(topText, 250, 60);
+        ctx.fillText(topText, 250, 60);
+      }
+
+      // Bottom text
+      if (bottomText) {
+        ctx.fillStyle = 'white';
+        ctx.strokeStyle = 'black';
+        ctx.lineWidth = 8;
+        ctx.font = 'bold 40px Impact, Arial';
+        ctx.textAlign = 'center';
+        ctx.strokeText(bottomText, 250, 460);
+        ctx.fillText(bottomText, 250, 460);
+      }
+
+      // Display result
+      output.innerHTML = `
+        <img src="${canvas.toDataURL()}" alt="Generated Meme" class="meme-canvas" style="max-width: 100%; border-radius: 0.5rem; box-shadow: 0 10px 30px rgba(0,0,0,0.3);">
+        <div style="margin-top: 1rem;">
+          <a href="${canvas.toDataURL()}" download="meme.png" class="btn btn-primary">Download Meme</a>
+        </div>
+      `;
+    }
+  </script>
+</body>
+</html>

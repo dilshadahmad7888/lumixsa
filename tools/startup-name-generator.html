@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Startup Name Generator - Lumixsa AI</title>
+  <meta name="description" content="Generate unique, memorable, and brandable business names for your next venture with AI-powered suggestions.">
+  <link rel="icon" type="image/jpeg" href="https://i.ibb.co/LX7SHfCH/lumixsa-logo.jpg">
+  <link rel="apple-touch-icon" href="https://i.ibb.co/LX7SHfCH/lumixsa-logo.jpg">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/main.css">
+  <link rel="stylesheet" href="../css/animations.css">
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="../css/responsive.css">
+</head>
+<body>
+  <nav class="navbar">
+    <div class="container">
+      <a href="../index.html" class="logo">
+        <img src="https://i.ibb.co/LX7SHfCH/lumixsa-logo.jpg" alt="Lumixsa AI Logo" class="logo-img">
+        <span>Lumixsa AI</span>
+      </a>
+      <div class="nav-links">
+        <a href="../index.html">Home</a>
+        <a href="../tools.html" class="active">Tools</a>
+        <a href="../blog.html">Blog</a>
+        <a href="../about.html">About</a>
+        <a href="../contact.html">Contact</a>
+        <button class="theme-toggle" id="theme-toggle"><span class="theme-icon">☀️</span></button>
+      </div>
+      <button class="mobile-menu-btn"><span></span><span></span><span></span></button>
+    </div>
+  </nav>
+  <div class="mobile-nav">
+    <a href="../index.html">Home</a><a href="../tools.html">Tools</a><a href="../blog.html">Blog</a><a href="../about.html">About</a><a href="../contact.html">Contact</a>
+  </div>
+
+  <section class="section" style="padding-top: 120px;">
+    <div class="container">
+      <div class="text-center scroll-reveal">
+        <div class="hero-badge" style="display: inline-flex;"><span>💡</span><span>Business Tool</span></div>
+        <h1>Startup Name Generator</h1>
+        <p style="max-width: 600px; margin: 0 auto 2rem;">Generate unique, memorable business names for your next venture.</p>
+      </div>
+
+      <div class="tool-container scroll-reveal">
+        <div class="form-group">
+          <label>Describe your business or enter keywords:</label>
+          <input type="text" id="business-input" class="tool-input" placeholder="e.g., tech company, coffee shop, fitness app...">
+        </div>
+        <button class="btn btn-primary" onclick="generateNames()" style="width: 100%;">Generate Names</button>
+        <div id="names-output" style="margin-top: 1.5rem;"></div>
+      </div>
+
+      <div class="scroll-reveal" style="margin-top: 3rem;">
+        <h3>Popular Industries:</h3>
+        <div style="display: flex; flex-wrap: wrap; gap: 0.75rem; margin-top: 1rem;">
+          <button class="btn btn-secondary" onclick="setIndustry('Technology')">Technology</button>
+          <button class="btn btn-secondary" onclick="setIndustry('Food & Restaurant')">Food & Restaurant</button>
+          <button class="btn btn-secondary" onclick="setIndustry('Fashion')">Fashion</button>
+          <button class="btn btn-secondary" onclick="setIndustry('Health & Fitness')">Health & Fitness</button>
+          <button class="btn btn-secondary" onclick="setIndustry('Finance')">Finance</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-bottom">
+        <p>&copy; 2025 Lumixsa AI. Managed by Dilshad Ahmad.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="../js/main.js"></script>
+  <script>
+    const namePatterns = {
+      'tech': ['Nex', 'Byte', 'Code', 'Data', 'Cloud', 'Cyber', 'Digi', 'Tech', 'App', 'Soft', 'Net', 'Web', 'Sys', 'AI', 'IoT'],
+      'food': ['Bite', 'Taste', 'Flavor', 'Chef', 'Dish', 'Meal', 'Cook', 'Eats', 'Grill', 'Brew', 'Spice', 'Fresh', 'Organic'],
+      'fashion': ['Style', 'Chic', 'Vogue', 'Trend', 'Mode', 'Wear', 'Cloth', 'Fabric', 'Design', 'Couture', 'Glam', 'Moda'],
+      'fitness': ['Fit', 'Gym', 'Strong', 'Muscle', 'Health', 'Active', 'Power', 'Flex', 'Core', 'Peak', 'Vital', 'Energy'],
+      'finance': ['Wealth', 'Capital', 'Invest', 'Money', 'Finance', 'Bank', 'Cash', 'Fund', 'Asset', 'Stock', 'Trade', 'Credit'],
+      'suffixes': ['ify', 'ly', 'io', 'hub', 'lab', 'box', 'zone', 'spot', 'nest', 'works', 'studio', 'pro', 'plus', 'max', 'go']
+    };
+
+    function setIndustry(industry) {
+      document.getElementById('business-input').value = industry;
+    }
+
+    function generateNames() {
+      const input = document.getElementById('business-input').value.trim().toLowerCase();
+      const output = document.getElementById('names-output');
+      
+      if (!input) {
+        alert('Please describe your business first!');
+        return;
+      }
+
+      let prefixes = namePatterns.tech;
+      if (input.includes('food') || input.includes('restaurant') || input.includes('coffee')) prefixes = namePatterns.food;
+      else if (input.includes('fashion') || input.includes('clothing') || input.includes('style')) prefixes = namePatterns.fashion;
+      else if (input.includes('fitness') || input.includes('gym') || input.includes('health')) prefixes = namePatterns.fitness;
+      else if (input.includes('finance') || input.includes('money') || input.includes('invest')) prefixes = namePatterns.finance;
+
+      const names = [];
+      for (let i = 0; i < 8; i++) {
+        const prefix = prefixes[Math.floor(Math.random() * prefixes.length)];
+        const suffix = namePatterns.suffixes[Math.floor(Math.random() * namePatterns.suffixes.length)];
+        const name = prefix + suffix;
+        if (!names.includes(name)) names.push(name);
+      }
+
+      output.innerHTML = `
+        <h4 style="margin-bottom: 1rem;">Generated Names:</h4>
+        <div style="display: grid; gap: 0.75rem;">
+          ${names.map(name => `
+            <div style="display: flex; justify-content: space-between; align-items: center; padding: 1rem; background: var(--bg-secondary); border-radius: 0.5rem;">
+              <span style="font-size: 1.25rem; font-weight: 600;">${name}</span>
+              <button class="btn btn-secondary" style="padding: 0.5rem 1rem; font-size: 0.875rem;" onclick="copyName('${name}')">Copy</button>
+            </div>
+          `).join('')}
+        </div>
+      `;
+    }
+
+    function copyName(name) {
+      navigator.clipboard.writeText(name);
+      alert(`Copied "${name}" to clipboard!`);
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Habit Tracker Dashboard - Lumixsa AI Tool</title>
+    <meta name="description" content="Build better habits with our intuitive dashboard. Track progress, set goals, and visualize your growth.">
+    <link rel="icon" type="image/jpeg" href="https://i.ibb.co/LX7SHfCH/lumixsa-logo.jpg">
+    <link rel="apple-touch-icon" href="https://i.ibb.co/LX7SHfCH/lumixsa-logo.jpg">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/animations.css">
+    <link rel="stylesheet" href="../css/responsive.css">
+    <style>
+        .tool-container { max-width: 900px; margin: 0 auto; padding: 2rem; }
+        .habit-card { padding: 1.5rem; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); margin-bottom: 1rem; }
+        .habit-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; }
+        .habit-title { font-size: 1.25rem; font-weight: 600; }
+        .streak { background: linear-gradient(135deg, #f59e0b, #ef4444); color: white; padding: 0.25rem 0.75rem; border-radius: var(--radius-full); font-size: 0.875rem; font-weight: 600; }
+        .days-row { display: flex; gap: 0.5rem; flex-wrap: wrap; }
+        .day-box { width: 40px; height: 40px; border-radius: var(--radius-md); background: var(--surface-light); display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all var(--transition-fast); font-size: 0.75rem; }
+        .day-box:hover { transform: scale(1.1); }
+        .day-box.completed { background: linear-gradient(135deg, #10b981, #06b6d4); }
+        .progress-bar { height: 8px; background: var(--surface-light); border-radius: var(--radius-full); overflow: hidden; margin-top: 1rem; }
+        .progress-fill { height: 100%; background: linear-gradient(90deg, var(--primary), var(--accent)); transition: width var(--transition-base); }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container">
+            <a href="../index.html" class="logo">
+                <img src="https://i.ibb.co/LX7SHfCH/lumixsa-logo.jpg" alt="Lumixsa AI Logo" class="logo-img" style="width: 40px; height: 40px; border-radius: 50%; object-fit: cover;">
+                <span class="logo-text">Lumixsa AI</span>
+            </a>
+            <div class="nav-links">
+                <a href="../index.html">Home</a>
+                <a href="../tools.html" class="active">Tools</a>
+                <a href="../blog.html">Blog</a>
+                <a href="../about.html">About</a>
+                <a href="../contact.html">Contact</a>
+            </div>
+            <button class="mobile-menu-btn" aria-label="Toggle menu"><span></span><span></span><span></span></button>
+        </div>
+    </nav>
+    <div class="mobile-nav">
+        <a href="../index.html">Home</a><a href="../tools.html">Tools</a><a href="../blog.html">Blog</a><a href="../about.html">About</a><a href="../contact.html">Contact</a>
+    </div>
+
+    <section class="hero" style="min-height: 40vh; padding-top: 120px;">
+        <div class="hero-bg"></div>
+        <div class="container">
+            <div class="hero-content" style="text-align: center;">
+                <span class="badge badge-primary mb-3">Productivity Tool</span>
+                <h1>Habit Tracker</h1>
+                <p>Build better habits, one day at a time</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="section" style="padding-top: 0;">
+        <div class="tool-container">
+            <div class="glass" style="padding: 2rem; border-radius: 1.5rem; margin-bottom: 2rem;">
+                <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
+                    <input type="text" class="form-input" id="newHabit" placeholder="Enter a new habit (e.g., Drink 8 glasses of water)" style="flex: 1;">
+                    <button class="btn btn-primary" onclick="addHabit()">Add Habit</button>
+                </div>
+            </div>
+
+            <div id="habitsContainer"></div>
+
+            <div style="margin-top: 2rem; text-align: center;">
+                <a href="../tools.html" class="btn btn-outline">← Back to All Tools</a>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-bottom" style="border-top: none; padding-top: 0;">
+                <p>&copy; 2025 Lumixsa AI. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="../js/main.js"></script>
+    <script src="../js/navigation.js"></script>
+    <script src="../js/chatbot.js"></script>
+    <script>
+        let habits = JSON.parse(localStorage.getItem('lumixsa_habits')) || [
+            { id: 1, name: 'Drink 8 glasses of water', streak: 5, completed: [true, true, true, true, true, false, false] },
+            { id: 2, name: 'Exercise 30 minutes', streak: 3, completed: [true, false, true, true, true, false, false] },
+            { id: 3, name: 'Read for 20 minutes', streak: 7, completed: [true, true, true, true, true, true, true] }
+        ];
+
+        const days = ['M', 'T', 'W', 'T', 'F', 'S', 'S'];
+
+        function renderHabits() {
+            const container = document.getElementById('habitsContainer');
+            container.innerHTML = habits.map(habit => {
+                const completedCount = habit.completed.filter(c => c).length;
+                const progress = (completedCount / 7) * 100;
+                
+                return `
+                    <div class="habit-card">
+                        <div class="habit-header">
+                            <span class="habit-title">${habit.name}</span>
+                            <span class="streak">🔥 ${habit.streak} day streak</span>
+                        </div>
+                        <div class="days-row">
+                            ${habit.completed.map((completed, idx) => `
+                                <div class="day-box ${completed ? 'completed' : ''}" onclick="toggleDay(${habit.id}, ${idx})">
+                                    ${days[idx]}
+                                </div>
+                            `).join('')}
+                        </div>
+                        <div class="progress-bar">
+                            <div class="progress-fill" style="width: ${progress}%"></div>
+                        </div>
+                        <p style="margin-top: 0.5rem; font-size: 0.875rem; color: var(--text-secondary);">${completedCount}/7 days this week</p>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function addHabit() {
+            const input = document.getElementById('newHabit');
+            const name = input.value.trim();
+            
+            if (!name) {
+                showToast('Please enter a habit name', 'error');
+                return;
+            }
+
+            const newHabit = {
+                id: Date.now(),
+                name: name,
+                streak: 0,
+                completed: [false, false, false, false, false, false, false]
+            };
+
+            habits.push(newHabit);
+            localStorage.setItem('lumixsa_habits', JSON.stringify(habits));
+            input.value = '';
+            renderHabits();
+            showToast('Habit added successfully!', 'success');
+        }
+
+        function toggleDay(habitId, dayIndex) {
+            const habit = habits.find(h => h.id === habitId);
+            if (habit) {
+                habit.completed[dayIndex] = !habit.completed[dayIndex];
+                
+                // Update streak
+                const streak = habit.completed.filter(c => c).length;
+                habit.streak = streak;
+                
+                localStorage.setItem('lumixsa_habits', JSON.stringify(habits));
+                renderHabits();
+            }
+        }
+
+        // Initial render
+        renderHabits();
+    </script>
+</body>
+</html>

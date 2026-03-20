@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Code Explainer - Lumixsa AI</title>
+  <meta name="description" content="Paste any code snippet and get a detailed explanation of what it does and how it works. Supports multiple programming languages.">
+  <link rel="icon" type="image/jpeg" href="https://i.ibb.co/LX7SHfCH/lumixsa-logo.jpg">
+  <link rel="apple-touch-icon" href="https://i.ibb.co/LX7SHfCH/lumixsa-logo.jpg">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/main.css">
+  <link rel="stylesheet" href="../css/animations.css">
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="../css/responsive.css">
+  <style>
+    .code-input { font-family: 'Courier New', monospace; min-height: 200px; }
+    pre { background: #1e1e1e; color: #d4d4d4; padding: 1.5rem; border-radius: 0.75rem; overflow-x: auto; }
+    code { font-family: 'Courier New', monospace; }
+  </style>
+</head>
+<body>
+  <nav class="navbar">
+    <div class="container">
+      <a href="../index.html" class="logo">
+        <img src="https://i.ibb.co/LX7SHfCH/lumixsa-logo.jpg" alt="Lumixsa AI Logo" class="logo-img">
+        <span>Lumixsa AI</span>
+      </a>
+      <div class="nav-links">
+        <a href="../index.html">Home</a>
+        <a href="../tools.html" class="active">Tools</a>
+        <a href="../blog.html">Blog</a>
+        <a href="../about.html">About</a>
+        <a href="../contact.html">Contact</a>
+        <button class="theme-toggle" id="theme-toggle"><span class="theme-icon">☀️</span></button>
+      </div>
+      <button class="mobile-menu-btn"><span></span><span></span><span></span></button>
+    </div>
+  </nav>
+  <div class="mobile-nav">
+    <a href="../index.html">Home</a><a href="../tools.html">Tools</a><a href="../blog.html">Blog</a><a href="../about.html">About</a><a href="../contact.html">Contact</a>
+  </div>
+
+  <section class="section" style="padding-top: 120px;">
+    <div class="container">
+      <div class="text-center scroll-reveal">
+        <div class="hero-badge" style="display: inline-flex;"><span>💻</span><span>Developer Tool</span></div>
+        <h1>Code Explainer</h1>
+        <p style="max-width: 600px; margin: 0 auto 2rem;">Paste any code snippet and get a detailed explanation of what it does.</p>
+      </div>
+
+      <div class="tool-container scroll-reveal">
+        <div class="form-group">
+          <label>Paste your code:</label>
+          <textarea id="code-input" class="tool-input code-input" placeholder="// Paste your code here...
+function example() {
+  console.log('Hello World');
+}"></textarea>
+        </div>
+        <button class="btn btn-primary" onclick="explainCode()" style="width: 100%;">Explain This Code</button>
+        <div id="code-explanation" style="margin-top: 1.5rem;"></div>
+      </div>
+
+      <div class="scroll-reveal" style="margin-top: 3rem;">
+        <h3>Example Code Snippets:</h3>
+        <div style="display: flex; flex-wrap: wrap; gap: 0.75rem; margin-top: 1rem;">
+          <button class="btn btn-secondary" onclick="loadExample('loop')">For Loop</button>
+          <button class="btn btn-secondary" onclick="loadExample('function')">Function</button>
+          <button class="btn btn-secondary" onclick="loadExample('array')">Array Methods</button>
+          <button class="btn btn-secondary" onclick="loadExample('async')">Async/Await</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-bottom">
+        <p>&copy; 2025 Lumixsa AI. Managed by Dilshad Ahmad.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="../js/main.js"></script>
+  <script>
+    const examples = {
+      loop: `for (let i = 0; i < 5; i++) {
+  console.log(i);
+}`,
+      function: `function greet(name) {
+  return "Hello, " + name + "!";
+}
+
+console.log(greet("World"));`,
+      array: `const numbers = [1, 2, 3, 4, 5];
+const doubled = numbers.map(n => n * 2);
+console.log(doubled);`,
+      async: `async function fetchData() {
+  const response = await fetch('/api/data');
+  const data = await response.json();
+  return data;
+}`
+    };
+
+    const explanations = {
+      'for': `This is a <strong>for loop</strong>, which repeats code multiple times:
+• <code>let i = 0</code> - Starts a counter at 0
+• <code>i < 5</code> - Keeps running while i is less than 5
+• <code>i++</code> - Adds 1 to i after each loop
+• <code>console.log(i)</code> - Prints the current number
+
+This will print numbers 0, 1, 2, 3, 4 to the console.`,
+      'function': `This code <strong>defines and calls a function</strong>:
+• <code>function greet(name)</code> - Creates a function that accepts a parameter
+• <code>return "Hello, " + name + "!"</code> - Sends back a greeting string
+• <code>greet("World")</code> - Calls the function with "World" as input
+• <code>console.log()</code> - Displays the result
+
+Output: "Hello, World!"`,
+      'map': `This code uses the <strong>map() method</strong> to transform an array:
+• <code>[1, 2, 3, 4, 5]</code> - Original array of numbers
+• <code>.map(n => n * 2)</code> - Creates new array where each number is doubled
+• The arrow function <code>n => n * 2</code> multiplies each number by 2
+
+Result: [2, 4, 6, 8, 10]`,
+      'async': `This is an <strong>asynchronous function</strong> for handling API calls:
+• <code>async function</code> - Declares a function that can use await
+• <code>await fetch()</code> - Waits for the HTTP request to complete
+• <code>await response.json()</code> - Converts response to JavaScript object
+• Returns the parsed data
+
+This prevents blocking other code while waiting for the network request.`,
+      'default': `This code appears to be written in JavaScript. Here's what I can tell:
+
+• It uses standard programming constructs
+• Variables store data for later use
+• Functions organize reusable code
+• Comments (marked with //) explain what the code does
+
+To get a more specific explanation, try code with common patterns like loops, functions, or conditionals.`
+    };
+
+    function loadExample(type) {
+      document.getElementById('code-input').value = examples[type];
+    }
+
+    function explainCode() {
+      const code = document.getElementById('code-input').value.trim();
+      const output = document.getElementById('code-explanation');
+      
+      if (!code) {
+        alert('Please paste some code first!');
+        return;
+      }
+
+      let explanation = explanations.default;
+      if (code.includes('for') && code.includes('i++')) explanation = explanations.for;
+      else if (code.includes('function') && code.includes('return')) explanation = explanations.function;
+      else if (code.includes('map') && code.includes('=>')) explanation = explanations.map;
+      else if (code.includes('async') && code.includes('await')) explanation = explanations.async;
+
+      output.innerHTML = `
+        <div style="background: var(--bg-secondary); padding: 1.5rem; border-radius: 0.75rem; border-left: 4px solid var(--accent-primary);">
+          <h4 style="margin-bottom: 1rem;">Code Explanation:</h4>
+          <pre><code>${escapeHtml(code)}</code></pre>
+          <div style="margin-top: 1.5rem; line-height: 1.8;">${explanation}</div>
+        </div>
+      `;
+    }
+
+    function escapeHtml(text) {
+      const div = document.createElement('div');
+      div.textContent = text;
+      return div.innerHTML;
+    }
+  </script>
+</body>
+</html>

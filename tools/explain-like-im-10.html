@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Explain Like I'm 10 - Lumixsa AI</title>
+  <meta name="description" content="Transform complex topics into simple explanations anyone can understand. Our AI breaks down difficult concepts into easy terms.">
+  <link rel="icon" type="image/jpeg" href="https://i.ibb.co/LX7SHfCH/lumixsa-logo.jpg">
+  <link rel="apple-touch-icon" href="https://i.ibb.co/LX7SHfCH/lumixsa-logo.jpg">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/main.css">
+  <link rel="stylesheet" href="../css/animations.css">
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="../css/responsive.css">
+</head>
+<body>
+  <nav class="navbar">
+    <div class="container">
+      <a href="../index.html" class="logo">
+        <img src="https://i.ibb.co/LX7SHfCH/lumixsa-logo.jpg" alt="Lumixsa AI Logo" class="logo-img">
+        <span>Lumixsa AI</span>
+      </a>
+      <div class="nav-links">
+        <a href="../index.html">Home</a>
+        <a href="../tools.html" class="active">Tools</a>
+        <a href="../blog.html">Blog</a>
+        <a href="../about.html">About</a>
+        <a href="../contact.html">Contact</a>
+        <button class="theme-toggle" id="theme-toggle"><span class="theme-icon">☀️</span></button>
+      </div>
+      <button class="mobile-menu-btn"><span></span><span></span><span></span></button>
+    </div>
+  </nav>
+  <div class="mobile-nav">
+    <a href="../index.html">Home</a><a href="../tools.html">Tools</a><a href="../blog.html">Blog</a><a href="../about.html">About</a><a href="../contact.html">Contact</a>
+  </div>
+
+  <section class="section" style="padding-top: 120px;">
+    <div class="container">
+      <div class="text-center scroll-reveal">
+        <div class="hero-badge" style="display: inline-flex;"><span>🧠</span><span>AI Tool</span></div>
+        <h1>Explain Like I'm 10</h1>
+        <p style="max-width: 600px; margin: 0 auto 2rem;">Enter any complex topic and get a simple, easy-to-understand explanation.</p>
+      </div>
+
+      <div class="tool-container scroll-reveal">
+        <div class="form-group">
+          <label>Enter a complex topic:</label>
+          <textarea id="topic-input" class="tool-input" rows="3" placeholder="e.g., Quantum Computing, Blockchain, Photosynthesis..."></textarea>
+        </div>
+        <button class="btn btn-primary" onclick="explainTopic()" style="width: 100%;">Explain It Simply</button>
+        <div id="explanation-output" class="tool-output" style="display: none;"></div>
+      </div>
+
+      <div class="scroll-reveal" style="margin-top: 3rem;">
+        <h3>Popular Topics to Try:</h3>
+        <div style="display: flex; flex-wrap: wrap; gap: 0.75rem; margin-top: 1rem;">
+          <button class="btn btn-secondary" onclick="setTopic('Quantum Computing')">Quantum Computing</button>
+          <button class="btn btn-secondary" onclick="setTopic('Blockchain')">Blockchain</button>
+          <button class="btn btn-secondary" onclick="setTopic('Artificial Intelligence')">Artificial Intelligence</button>
+          <button class="btn btn-secondary" onclick="setTopic('Climate Change')">Climate Change</button>
+          <button class="btn btn-secondary" onclick="setTopic('How the Internet Works')">How the Internet Works</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-bottom">
+        <p>&copy; 2025 Lumixsa AI. Managed by Dilshad Ahmad.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="../js/main.js"></script>
+  <script>
+    const explanations = {
+      'quantum computing': `Imagine a regular computer is like a light switch - it's either ON or OFF (0 or 1). A quantum computer is like a dimmer switch that can be ON, OFF, or anywhere in between at the same time! This lets it solve really hard problems super fast by trying many solutions at once.`,
+      'blockchain': `Think of blockchain like a digital notebook that everyone can see, but no one can erase or change old pages. When you write something in it, everyone gets a copy. This makes it perfect for keeping track of things like money (Bitcoin) without needing a bank!`,
+      'artificial intelligence': `AI is like teaching a computer to learn from examples, just like how you learned to recognize cats by seeing many cats. The computer looks at tons of data, finds patterns, and gets better at tasks like recognizing pictures, understanding speech, or even playing games!`,
+      'climate change': `Earth has a blanket of gases that keep it warm - like how a greenhouse keeps plants warm. But we're adding too much gas (like CO2 from cars and factories), making the blanket too thick. This causes ice to melt, weather to get weird, and temperatures to rise.`,
+      'internet': `The internet is like a giant spiderweb of computers all connected by wires and WiFi. When you send a message, it gets broken into tiny pieces, zips through the web, and reassembles at your friend's computer - all in milliseconds!`,
+      'default': `That's an interesting topic! In simple terms, think of it like this: Everything complex is just made of simple parts working together. Just like how a car is just wheels, engine, and seats working as a team, this topic has basic building blocks that combine to create something amazing!`
+    };
+
+    function setTopic(topic) {
+      document.getElementById('topic-input').value = topic;
+    }
+
+    function explainTopic() {
+      const input = document.getElementById('topic-input').value.trim().toLowerCase();
+      const output = document.getElementById('explanation-output');
+      
+      if (!input) {
+        alert('Please enter a topic first!');
+        return;
+      }
+
+      let explanation = explanations.default;
+      for (const [key, value] of Object.entries(explanations)) {
+        if (input.includes(key)) {
+          explanation = value;
+          break;
+        }
+      }
+
+      output.innerHTML = `<h4>Here's the simple explanation:</h4><p style="font-size: 1.125rem; line-height: 1.8;">${explanation}</p>`;
+      output.style.display = 'block';
+      output.scrollIntoView({ behavior: 'smooth' });
+    }
+  </script>
+</body>
+</html>

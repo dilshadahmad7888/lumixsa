@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chat with PDF - Lumixsa AI Tool</title>
+    <meta name="description" content="Upload PDF documents and chat with them. Extract information, summarize content, and ask questions.">
+    <link rel="icon" type="image/jpeg" href="https://i.ibb.co/LX7SHfCH/lumixsa-logo.jpg">
+    <link rel="apple-touch-icon" href="https://i.ibb.co/LX7SHfCH/lumixsa-logo.jpg">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/animations.css">
+    <link rel="stylesheet" href="../css/responsive.css">
+    <style>
+        .tool-container { max-width: 900px; margin: 0 auto; padding: 2rem; }
+        .upload-area { border: 2px dashed var(--border); border-radius: var(--radius-xl); padding: 3rem; text-align: center; transition: all var(--transition-fast); cursor: pointer; }
+        .upload-area:hover { border-color: var(--primary); background: rgba(99, 102, 241, 0.05); }
+        .chat-container { background: var(--surface); border-radius: var(--radius-lg); height: 400px; overflow-y: auto; padding: 1rem; margin-top: 1.5rem; }
+        .chat-message { padding: 1rem; border-radius: var(--radius-lg); margin-bottom: 1rem; max-width: 80%; }
+        .chat-message.user { background: var(--primary); color: white; margin-left: auto; }
+        .chat-message.bot { background: var(--surface-light); }
+        .suggestion-chip { display: inline-block; padding: 0.5rem 1rem; background: var(--surface-light); border-radius: var(--radius-full); font-size: 0.875rem; cursor: pointer; margin: 0.25rem; transition: all var(--transition-fast); }
+        .suggestion-chip:hover { background: var(--primary); color: white; }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container">
+            <a href="../index.html" class="logo">
+                <img src="https://i.ibb.co/LX7SHfCH/lumixsa-logo.jpg" alt="Lumixsa AI Logo" class="logo-img" style="width: 40px; height: 40px; border-radius: 50%; object-fit: cover;">
+                <span class="logo-text">Lumixsa AI</span>
+            </a>
+            <div class="nav-links">
+                <a href="../index.html">Home</a>
+                <a href="../tools.html" class="active">Tools</a>
+                <a href="../blog.html">Blog</a>
+                <a href="../about.html">About</a>
+                <a href="../contact.html">Contact</a>
+            </div>
+            <button class="mobile-menu-btn" aria-label="Toggle menu"><span></span><span></span><span></span></button>
+        </div>
+    </nav>
+    <div class="mobile-nav">
+        <a href="../index.html">Home</a><a href="../tools.html">Tools</a><a href="../blog.html">Blog</a><a href="../about.html">About</a><a href="../contact.html">Contact</a>
+    </div>
+
+    <section class="hero" style="min-height: 40vh; padding-top: 120px;">
+        <div class="hero-bg"></div>
+        <div class="container">
+            <div class="hero-content" style="text-align: center;">
+                <span class="badge badge-primary mb-3">AI Tool</span>
+                <h1>Chat with PDF</h1>
+                <p>Upload PDFs and ask questions about their content</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="section" style="padding-top: 0;">
+        <div class="tool-container">
+            <div class="glass" style="padding: 2rem; border-radius: 1.5rem;">
+                <div class="upload-area" id="uploadArea" onclick="document.getElementById('pdfInput').click()">
+                    <div style="font-size: 4rem; margin-bottom: 1rem;">📄</div>
+                    <h3>Upload PDF Document</h3>
+                    <p style="color: var(--text-secondary);">Click to browse or drag and drop your PDF here</p>
+                    <input type="file" id="pdfInput" accept=".pdf" style="display: none;" onchange="handleFileUpload(event)">
+                </div>
+
+                <div id="pdfInfo" style="display: none; margin-top: 1rem; padding: 1rem; background: rgba(16, 185, 129, 0.1); border-radius: var(--radius-lg);">
+                    <p style="margin: 0; color: var(--success);">✅ PDF uploaded successfully! Ready to chat.</p>
+                </div>
+
+                <div id="chatSection" style="display: none;">
+                    <div style="margin-top: 1.5rem;">
+                        <span style="color: var(--text-secondary); font-size: 0.875rem;">Try asking:</span>
+                        <div style="margin-top: 0.5rem;">
+                            <span class="suggestion-chip" onclick="askQuestion('Summarize this document')">Summarize this document</span>
+                            <span class="suggestion-chip" onclick="askQuestion('What are the main points?')">What are the main points?</span>
+                            <span class="suggestion-chip" onclick="askQuestion('Extract key information')">Extract key information</span>
+                            <span class="suggestion-chip" onclick="askQuestion('What is this about?')">What is this about?</span>
+                        </div>
+                    </div>
+
+                    <div class="chat-container" id="chatContainer"></div>
+
+                    <div style="display: flex; gap: 1rem; margin-top: 1rem;">
+                        <input type="text" class="form-input" id="userQuestion" placeholder="Ask a question about your PDF..." onkeypress="if(event.key==='Enter')sendQuestion()">
+                        <button class="btn btn-primary" onclick="sendQuestion()">Send</button>
+                    </div>
+                </div>
+            </div>
+
+            <div style="margin-top: 2rem; text-align: center;">
+                <a href="../tools.html" class="btn btn-outline">← Back to All Tools</a>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-bottom" style="border-top: none; padding-top: 0;">
+                <p>&copy; 2025 Lumixsa AI. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="../js/main.js"></script>
+    <script src="../js/navigation.js"></script>
+    <script src="../js/chatbot.js"></script>
+    <script>
+        let pdfUploaded = false;
+
+        function handleFileUpload(event) {
+            const file = event.target.files[0];
+            if (file && file.type === 'application/pdf') {
+                pdfUploaded = true;
+                document.getElementById('pdfInfo').style.display = 'block';
+                document.getElementById('chatSection').style.display = 'block';
+                document.getElementById('uploadArea').style.display = 'none';
+                
+                // Add welcome message
+                addMessage('bot', `I've received your PDF "${file.name}". What would you like to know about it?`);
+            } else {
+                showToast('Please upload a valid PDF file', 'error');
+            }
+        }
+
+        function askQuestion(question) {
+            document.getElementById('userQuestion').value = question;
+            sendQuestion();
+        }
+
+        function sendQuestion() {
+            const input = document.getElementById('userQuestion');
+            const question = input.value.trim();
+            
+            if (!question) return;
+
+            addMessage('user', question);
+            input.value = '';
+
+            // Simulate AI response
+            setTimeout(() => {
+                const responses = [
+                    "Based on the document, the main topics covered include key concepts, detailed analysis, and practical applications. The document appears to be well-structured with clear headings and subheadings.",
+                    "The document contains approximately several pages of content covering various aspects of the subject matter. Key findings include important data points and conclusions.",
+                    "From what I can analyze, this document focuses on providing comprehensive information about the topic. It includes examples, case studies, and actionable insights.",
+                    "The summary of this document reveals that it covers: 1) Introduction to the topic, 2) Main concepts and principles, 3) Practical applications, 4) Conclusions and recommendations."
+                ];
+                const randomResponse = responses[Math.floor(Math.random() * responses.length)];
+                addMessage('bot', randomResponse);
+            }, 1000);
+        }
+
+        function addMessage(sender, text) {
+            const container = document.getElementById('chatContainer');
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `chat-message ${sender}`;
+            messageDiv.textContent = text;
+            container.appendChild(messageDiv);
+            container.scrollTop = container.scrollHeight;
+        }
+    </script>
+</body>
+</html>

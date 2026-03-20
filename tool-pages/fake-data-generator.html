@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fake Data Generator - Lumixsa AI Tool</title>
+    <meta name="description" content="Generate realistic fake data for testing and development. Names, emails, addresses, and more.">
+    <link rel="icon" type="image/jpeg" href="https://i.ibb.co/LX7SHfCH/lumixsa-logo.jpg">
+    <link rel="apple-touch-icon" href="https://i.ibb.co/LX7SHfCH/lumixsa-logo.jpg">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/animations.css">
+    <link rel="stylesheet" href="../css/responsive.css">
+    <style>
+        .tool-container { max-width: 900px; margin: 0 auto; padding: 2rem; }
+        .data-table { width: 100%; border-collapse: collapse; margin-top: 1rem; }
+        .data-table th, .data-table td { padding: 1rem; text-align: left; border-bottom: 1px solid var(--border); }
+        .data-table th { background: var(--surface); font-weight: 600; }
+        .data-table tr:hover { background: rgba(99, 102, 241, 0.05); }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container">
+            <a href="../index.html" class="logo">
+                <img src="https://i.ibb.co/LX7SHfCH/lumixsa-logo.jpg" alt="Lumixsa AI Logo" class="logo-img" style="width: 40px; height: 40px; border-radius: 50%; object-fit: cover;">
+                <span class="logo-text">Lumixsa AI</span>
+            </a>
+            <div class="nav-links">
+                <a href="../index.html">Home</a>
+                <a href="../tools.html" class="active">Tools</a>
+                <a href="../blog.html">Blog</a>
+                <a href="../about.html">About</a>
+                <a href="../contact.html">Contact</a>
+            </div>
+            <button class="mobile-menu-btn" aria-label="Toggle menu"><span></span><span></span><span></span></button>
+        </div>
+    </nav>
+    <div class="mobile-nav">
+        <a href="../index.html">Home</a><a href="../tools.html">Tools</a><a href="../blog.html">Blog</a><a href="../about.html">About</a><a href="../contact.html">Contact</a>
+    </div>
+
+    <section class="hero" style="min-height: 40vh; padding-top: 120px;">
+        <div class="hero-bg"></div>
+        <div class="container">
+            <div class="hero-content" style="text-align: center;">
+                <span class="badge badge-primary mb-3">Developer Tool</span>
+                <h1>Fake Data Generator</h1>
+                <p>Generate realistic test data for your applications</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="section" style="padding-top: 0;">
+        <div class="tool-container">
+            <div class="glass" style="padding: 2rem; border-radius: 1.5rem;">
+                <div style="display: flex; gap: 1rem; flex-wrap: wrap; margin-bottom: 1.5rem; align-items: center;">
+                    <label class="form-label" style="margin: 0;">Number of records:</label>
+                    <select class="form-select" id="recordCount" style="width: auto;">
+                        <option value="5">5</option>
+                        <option value="10" selected>10</option>
+                        <option value="25">25</option>
+                        <option value="50">50</option>
+                    </select>
+                    <button class="btn btn-primary" onclick="generateData()">Generate Data</button>
+                    <button class="btn btn-secondary" onclick="copyAllData()">Copy All</button>
+                    <button class="btn btn-secondary" onclick="downloadCSV()">Download CSV</button>
+                </div>
+
+                <div style="overflow-x: auto;">
+                    <table class="data-table" id="dataTable">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Email</th>
+                                <th>Phone</th>
+                                <th>Company</th>
+                                <th>City</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tableBody"></tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div style="margin-top: 2rem; text-align: center;">
+                <a href="../tools.html" class="btn btn-outline">← Back to All Tools</a>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-bottom" style="border-top: none; padding-top: 0;">
+                <p>&copy; 2025 Lumixsa AI. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="../js/main.js"></script>
+    <script src="../js/navigation.js"></script>
+    <script src="../js/chatbot.js"></script>
+    <script>
+        const firstNames = ['James', 'Mary', 'John', 'Patricia', 'Robert', 'Jennifer', 'Michael', 'Linda', 'William', 'Elizabeth', 'David', 'Barbara', 'Richard', 'Susan', 'Joseph', 'Jessica'];
+        const lastNames = ['Smith', 'Johnson', 'Williams', 'Brown', 'Jones', 'Garcia', 'Miller', 'Davis', 'Rodriguez', 'Martinez', 'Hernandez', 'Lopez', 'Gonzalez', 'Wilson', 'Anderson'];
+        const companies = ['TechCorp', 'Innovate Inc', 'Global Solutions', 'Digital Dynamics', 'Future Systems', 'Smart Tech', 'Cloud Nine', 'Data Drive', 'Byte Works', 'Code Craft'];
+        const cities = ['New York', 'Los Angeles', 'Chicago', 'Houston', 'Phoenix', 'Philadelphia', 'San Antonio', 'San Diego', 'Dallas', 'San Jose', 'Austin', 'Jacksonville'];
+        const domains = ['gmail.com', 'yahoo.com', 'hotmail.com', 'outlook.com', 'company.com', 'mail.com'];
+
+        let currentData = [];
+
+        function generateData() {
+            const count = parseInt(document.getElementById('recordCount').value);
+            currentData = [];
+
+            for (let i = 0; i < count; i++) {
+                const firstName = firstNames[Math.floor(Math.random() * firstNames.length)];
+                const lastName = lastNames[Math.floor(Math.random() * lastNames.length)];
+                const company = companies[Math.floor(Math.random() * companies.length)];
+                const city = cities[Math.floor(Math.random() * cities.length)];
+                const domain = domains[Math.floor(Math.random() * domains.length)];
+                
+                const person = {
+                    name: `${firstName} ${lastName}`,
+                    email: `${firstName.toLowerCase()}.${lastName.toLowerCase()}@${domain}`,
+                    phone: `(${Math.floor(Math.random() * 900) + 100}) ${Math.floor(Math.random() * 900) + 100}-${Math.floor(Math.random() * 9000) + 1000}`,
+                    company: company,
+                    city: city
+                };
+                
+                currentData.push(person);
+            }
+
+            renderTable();
+        }
+
+        function renderTable() {
+            const tbody = document.getElementById('tableBody');
+            tbody.innerHTML = currentData.map(person => `
+                <tr>
+                    <td>${person.name}</td>
+                    <td>${person.email}</td>
+                    <td>${person.phone}</td>
+                    <td>${person.company}</td>
+                    <td>${person.city}</td>
+                </tr>
+            `).join('');
+        }
+
+        function copyAllData() {
+            if (currentData.length === 0) {
+                showToast('Generate data first', 'error');
+                return;
+            }
+            const text = currentData.map(p => `${p.name}, ${p.email}, ${p.phone}, ${p.company}, ${p.city}`).join('\n');
+            copyToClipboard(text, 'Data copied to clipboard!');
+        }
+
+        function downloadCSV() {
+            if (currentData.length === 0) {
+                showToast('Generate data first', 'error');
+                return;
+            }
+            
+            let csv = 'Name,Email,Phone,Company,City\n';
+            csv += currentData.map(p => `"${p.name}","${p.email}","${p.phone}","${p.company}","${p.city}"`).join('\n');
+            
+            downloadFile(csv, 'fake-data.csv', 'text/csv');
+        }
+
+        function downloadFile(content, filename, type) {
+            const blob = new Blob([content], { type });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = filename;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }
+
+        // Generate initial data
+        generateData();
+    </script>
+</body>
+</html>

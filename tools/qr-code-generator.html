@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>QR Code Generator - Lumixsa AI</title>
+  <meta name="description" content="Create QR codes for URLs, text, contact info, and more. Download and share instantly.">
+  <link rel="icon" type="image/jpeg" href="https://i.ibb.co/LX7SHfCH/lumixsa-logo.jpg">
+  <link rel="apple-touch-icon" href="https://i.ibb.co/LX7SHfCH/lumixsa-logo.jpg">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/main.css">
+  <link rel="stylesheet" href="../css/animations.css">
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="../css/responsive.css">
+</head>
+<body>
+  <nav class="navbar">
+    <div class="container">
+      <a href="../index.html" class="logo">
+        <img src="https://i.ibb.co/LX7SHfCH/lumixsa-logo.jpg" alt="Lumixsa AI Logo" class="logo-img">
+        <span>Lumixsa AI</span>
+      </a>
+      <div class="nav-links">
+        <a href="../index.html">Home</a>
+        <a href="../tools.html" class="active">Tools</a>
+        <a href="../blog.html">Blog</a>
+        <a href="../about.html">About</a>
+        <a href="../contact.html">Contact</a>
+        <button class="theme-toggle" id="theme-toggle"><span class="theme-icon">☀️</span></button>
+      </div>
+      <button class="mobile-menu-btn"><span></span><span></span><span></span></button>
+    </div>
+  </nav>
+  <div class="mobile-nav">
+    <a href="../index.html">Home</a><a href="../tools.html">Tools</a><a href="../blog.html">Blog</a><a href="../about.html">About</a><a href="../contact.html">Contact</a>
+  </div>
+
+  <section class="section" style="padding-top: 120px;">
+    <div class="container">
+      <div class="text-center scroll-reveal">
+        <div class="hero-badge" style="display: inline-flex;"><span>📱</span><span>Utility Tool</span></div>
+        <h1>QR Code Generator</h1>
+        <p style="max-width: 600px; margin: 0 auto 2rem;">Create QR codes for URLs, text, contact info, and more.</p>
+      </div>
+
+      <div class="tool-container scroll-reveal">
+        <div class="form-group">
+          <label>Enter text, URL, or data:</label>
+          <textarea id="qr-input" class="tool-input" rows="3" placeholder="https://example.com or any text..."></textarea>
+        </div>
+        <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem; margin-bottom: 1rem;">
+          <div class="form-group">
+            <label>Size:</label>
+            <select id="qr-size" class="tool-input" style="padding: 0.75rem;">
+              <option value="150">Small (150x150)</option>
+              <option value="200" selected>Medium (200x200)</option>
+              <option value="300">Large (300x300)</option>
+              <option value="400">Extra Large (400x400)</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Color:</label>
+            <select id="qr-color" class="tool-input" style="padding: 0.75rem;">
+              <option value="0f172a">Dark</option>
+              <option value="6366f1">Indigo</option>
+              <option value="8b5cf6">Purple</option>
+              <option value="06b6d4">Cyan</option>
+              <option value="ef4444">Red</option>
+            </select>
+          </div>
+        </div>
+        <button class="btn btn-primary" onclick="generateQR()" style="width: 100%;">Generate QR Code</button>
+        <div id="qr-output" style="margin-top: 1.5rem; text-align: center;"></div>
+      </div>
+
+      <div class="scroll-reveal" style="margin-top: 3rem;">
+        <h3>Quick Examples:</h3>
+        <div style="display: flex; flex-wrap: wrap; gap: 0.75rem; margin-top: 1rem;">
+          <button class="btn btn-secondary" onclick="setQR('https://lumixsa.site')">Our Website</button>
+          <button class="btn btn-secondary" onclick="setQR('WIFI:T:WPA;S:MyNetwork;P:password123;;')">WiFi Example</button>
+          <button class="btn btn-secondary" onclick="setQR('mailto:lumixsasupport@gmail.com')">Email Link</button>
+          <button class="btn btn-secondary" onclick="setQR('tel:+03904563345')">Phone Number</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-bottom">
+        <p>&copy; 2025 Lumixsa AI. Managed by Dilshad Ahmad.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="../js/main.js"></script>
+  <script>
+    function setQR(text) {
+      document.getElementById('qr-input').value = text;
+    }
+
+    function generateQR() {
+      const text = document.getElementById('qr-input').value.trim();
+      const size = document.getElementById('qr-size').value;
+      const color = document.getElementById('qr-color').value;
+      const output = document.getElementById('qr-output');
+      
+      if (!text) {
+        alert('Please enter some text or URL first!');
+        return;
+      }
+
+      const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=${size}x${size}&data=${encodeURIComponent(text)}&color=${color}`;
+      
+      output.innerHTML = `
+        <div style="background: white; padding: 2rem; border-radius: 1rem; display: inline-block;">
+          <img src="${qrUrl}" alt="QR Code" style="max-width: 100%; height: auto;">
+        </div>
+        <div style="margin-top: 1rem;">
+          <a href="${qrUrl}" download="qrcode.png" class="btn btn-primary" style="display: inline-block;">Download QR Code</a>
+        </div>
+      `;
+    }
+  </script>
+</body>
+</html>

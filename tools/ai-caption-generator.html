@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Caption Generator - Lumixsa AI</title>
+  <meta name="description" content="Create engaging social media captions instantly. Perfect for Instagram, Twitter, Facebook, and LinkedIn.">
+  <link rel="icon" type="image/jpeg" href="https://i.ibb.co/LX7SHfCH/lumixsa-logo.jpg">
+  <link rel="apple-touch-icon" href="https://i.ibb.co/LX7SHfCH/lumixsa-logo.jpg">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/main.css">
+  <link rel="stylesheet" href="../css/animations.css">
+  <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="../css/responsive.css">
+</head>
+<body>
+  <nav class="navbar">
+    <div class="container">
+      <a href="../index.html" class="logo">
+        <img src="https://i.ibb.co/LX7SHfCH/lumixsa-logo.jpg" alt="Lumixsa AI Logo" class="logo-img">
+        <span>Lumixsa AI</span>
+      </a>
+      <div class="nav-links">
+        <a href="../index.html">Home</a>
+        <a href="../tools.html" class="active">Tools</a>
+        <a href="../blog.html">Blog</a>
+        <a href="../about.html">About</a>
+        <a href="../contact.html">Contact</a>
+        <button class="theme-toggle" id="theme-toggle"><span class="theme-icon">☀️</span></button>
+      </div>
+      <button class="mobile-menu-btn"><span></span><span></span><span></span></button>
+    </div>
+  </nav>
+  <div class="mobile-nav">
+    <a href="../index.html">Home</a><a href="../tools.html">Tools</a><a href="../blog.html">Blog</a><a href="../about.html">About</a><a href="../contact.html">Contact</a>
+  </div>
+
+  <section class="section" style="padding-top: 120px;">
+    <div class="container">
+      <div class="text-center scroll-reveal">
+        <div class="hero-badge" style="display: inline-flex;"><span>📋</span><span>Social Media</span></div>
+        <h1>AI Caption Generator</h1>
+        <p style="max-width: 600px; margin: 0 auto 2rem;">Create engaging captions for your social media posts in seconds.</p>
+      </div>
+
+      <div class="tool-container scroll-reveal">
+        <div class="form-group">
+          <label>Describe your post or topic:</label>
+          <textarea id="caption-topic" class="tool-input" rows="3" placeholder="e.g., Sunset beach photo, New product launch, Morning coffee..."></textarea>
+        </div>
+        
+        <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem; margin-bottom: 1rem;">
+          <div class="form-group">
+            <label>Platform:</label>
+            <select id="caption-platform" class="tool-input" style="padding: 0.75rem;">
+              <option value="instagram">Instagram</option>
+              <option value="twitter">Twitter/X</option>
+              <option value="facebook">Facebook</option>
+              <option value="linkedin">LinkedIn</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Tone:</label>
+            <select id="caption-tone" class="tool-input" style="padding: 0.75rem;">
+              <option value="casual">Casual</option>
+              <option value="professional">Professional</option>
+              <option value="funny">Funny</option>
+              <option value="inspirational">Inspirational</option>
+            </select>
+          </div>
+        </div>
+        
+        <button class="btn btn-primary" onclick="generateCaptions()" style="width: 100%;">Generate Captions</button>
+        <div id="captions-output" style="margin-top: 1.5rem;"></div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="footer-bottom">
+        <p>&copy; 2025 Lumixsa AI. Managed by Dilshad Ahmad.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="../js/main.js"></script>
+  <script>
+    const captionTemplates = {
+      instagram: {
+        casual: ['Living my best life ✨', 'Weekend vibes only 🌴', 'Just chilling 😎', 'Good times ahead 🎉'],
+        professional: ['Excited to share this milestone with you all.', 'Building something special. Stay tuned.', 'Grateful for every opportunity.'],
+        funny: ['Me pretending I have my life together 😂', 'Adulting is hard, send help 🆘', 'My therapist says I need boundaries. So I got a fence.'],
+        inspirational: ['Believe in yourself and anything is possible.', 'Every day is a new beginning.', 'Dream big, work hard, make it happen.']
+      },
+      twitter: {
+        casual: ['Just vibing today', 'Current mood: chill', 'Another day, another adventure'],
+        professional: ['Thread on industry insights 🧵', 'Key lesson from 10 years in business:', 'Excited to announce our latest project.'],
+        funny: ['Plot twist: I have no idea what I\'m doing', 'My brain has too many tabs open', 'Me: I should sleep. Also me: *opens Twitter*'],
+        inspirational: ['Your only limit is your mind.', 'Small steps every day lead to big results.', 'Keep going. You\'re closer than you think.']
+      }
+    };
+
+    const hashtags = ['#motivation', '#lifestyle', '#success', '#inspiration', '#goals', '#mindset', '#growth', '#hustle'];
+
+    function generateCaptions() {
+      const topic = document.getElementById('caption-topic').value.trim();
+      const platform = document.getElementById('caption-platform').value;
+      const tone = document.getElementById('caption-tone').value;
+      const output = document.getElementById('captions-output');
+      
+      if (!topic) {
+        alert('Please describe your post first!');
+        return;
+      }
+
+      const templates = captionTemplates[platform] || captionTemplates.instagram;
+      const toneTemplates = templates[tone] || templates.casual;
+      
+      const captions = [];
+      for (let i = 0; i < 4; i++) {
+        const template = toneTemplates[i % toneTemplates.length];
+        const randomHashtags = hashtags.sort(() => 0.5 - Math.random()).slice(0, 3).join(' ');
+        captions.push(`${template}\n\n${randomHashtags}`);
+      }
+
+      output.innerHTML = `
+        <h4 style="margin-bottom: 1rem;">Generated Captions:</h4>
+        <div style="display: grid; gap: 1rem;">
+          ${captions.map((caption, index) => `
+            <div style="padding: 1.5rem; background: var(--bg-secondary); border-radius: 0.75rem; position: relative;">
+              <p style="margin: 0; white-space: pre-line; line-height: 1.6;">${caption}</p>
+              <button onclick="copyCaption(this, '${caption.replace(/'/g, "\\'")}')" class="btn btn-secondary" style="position: absolute; top: 1rem; right: 1rem; padding: 0.5rem 1rem; font-size: 0.875rem;">Copy</button>
+            </div>
+          `).join('')}
+        </div>
+      `;
+    }
+
+    function copyCaption(btn, text) {
+      navigator.clipboard.writeText(text);
+      btn.textContent = 'Copied!';
+      setTimeout(() => btn.textContent = 'Copy', 2000);
+    }
+  </script>
+</body>
+</html>

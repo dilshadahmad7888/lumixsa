@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Startup Name Generator - Lumixsa AI Tool</title>
+    <meta name="description" content="Generate creative and catchy startup names with AI-powered suggestions.">
+    <link rel="icon" type="image/jpeg" href="https://i.ibb.co/LX7SHfCH/lumixsa-logo.jpg">
+    <link rel="apple-touch-icon" href="https://i.ibb.co/LX7SHfCH/lumixsa-logo.jpg">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../css/style.css">
+    <link rel="stylesheet" href="../css/animations.css">
+    <link rel="stylesheet" href="../css/responsive.css">
+    <style>
+        .tool-container { max-width: 800px; margin: 0 auto; padding: 2rem; }
+        .name-card { padding: 1.5rem; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-lg); margin-bottom: 1rem; display: flex; justify-content: space-between; align-items: center; transition: all var(--transition-fast); }
+        .name-card:hover { border-color: var(--primary); transform: translateX(5px); }
+        .name-text { font-size: 1.5rem; font-weight: 700; color: var(--text-primary); }
+        .name-meta { font-size: 0.875rem; color: var(--text-secondary); margin-top: 0.25rem; }
+        .category-btn { padding: 0.5rem 1rem; background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius-full); cursor: pointer; transition: all var(--transition-fast); margin: 0.25rem; }
+        .category-btn:hover, .category-btn.active { background: var(--primary); border-color: var(--primary); color: white; }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container">
+            <a href="../index.html" class="logo">
+                <img src="https://i.ibb.co/LX7SHfCH/lumixsa-logo.jpg" alt="Lumixsa AI Logo" class="logo-img" style="width: 40px; height: 40px; border-radius: 50%; object-fit: cover;">
+                <span class="logo-text">Lumixsa AI</span>
+            </a>
+            <div class="nav-links">
+                <a href="../index.html">Home</a>
+                <a href="../tools.html" class="active">Tools</a>
+                <a href="../blog.html">Blog</a>
+                <a href="../about.html">About</a>
+                <a href="../contact.html">Contact</a>
+            </div>
+            <button class="mobile-menu-btn" aria-label="Toggle menu"><span></span><span></span><span></span></button>
+        </div>
+    </nav>
+    <div class="mobile-nav">
+        <a href="../index.html">Home</a><a href="../tools.html">Tools</a><a href="../blog.html">Blog</a><a href="../about.html">About</a><a href="../contact.html">Contact</a>
+    </div>
+
+    <section class="hero" style="min-height: 40vh; padding-top: 120px;">
+        <div class="hero-bg"></div>
+        <div class="container">
+            <div class="hero-content" style="text-align: center;">
+                <span class="badge badge-primary mb-3">AI Tool</span>
+                <h1>Startup Name Generator</h1>
+                <p>Generate creative and catchy names for your next big venture</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="section" style="padding-top: 0;">
+        <div class="tool-container">
+            <div class="glass" style="padding: 2rem; border-radius: 1.5rem;">
+                <label class="form-label">Select Industry:</label>
+                <div style="margin-bottom: 1.5rem;">
+                    <button class="category-btn active" onclick="setCategory('tech')">Tech</button>
+                    <button class="category-btn" onclick="setCategory('fashion')">Fashion</button>
+                    <button class="category-btn" onclick="setCategory('food')">Food</button>
+                    <button class="category-btn" onclick="setCategory('health')">Health</button>
+                    <button class="category-btn" onclick="setCategory('finance')">Finance</button>
+                    <button class="category-btn" onclick="setCategory('creative')">Creative</button>
+                </div>
+
+                <label class="form-label">Keywords (optional):</label>
+                <input type="text" class="form-input" id="keywords" placeholder="e.g., cloud, fast, smart" style="margin-bottom: 1.5rem;">
+
+                <button class="btn btn-primary btn-lg" onclick="generateNames()" style="width: 100%; margin-bottom: 1.5rem;">
+                    Generate Names
+                </button>
+
+                <div id="resultsContainer"></div>
+            </div>
+
+            <div style="margin-top: 2rem; text-align: center;">
+                <a href="../tools.html" class="btn btn-outline">← Back to All Tools</a>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-bottom" style="border-top: none; padding-top: 0;">
+                <p>&copy; 2025 Lumixsa AI. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="../js/main.js"></script>
+    <script src="../js/navigation.js"></script>
+    <script src="../js/chatbot.js"></script>
+    <script>
+        let currentCategory = 'tech';
+
+        const nameDatabase = {
+            tech: ['Nexora', 'Quantix', 'Synapse', 'Veloxa', 'Cyberly', 'Technova', 'Innovat', 'Digiflux', 'Cloudora', 'Datavium'],
+            fashion: ['Styleva', 'Modora', 'Chicly', 'Voguex', 'Trendia', 'Fashio', 'Eleganza', 'Coutura', 'Glamora', 'Attirex'],
+            food: ['Flavora', 'Cuisina', 'Gustova', 'Savora', 'Nourish', 'Delicia', 'Tastora', 'Culinex', 'Feastro', 'Bitebox'],
+            health: ['Vitalis', 'Wellora', 'Medica', 'Healtho', 'Curexa', 'Vitality', 'Thera', 'Sanova', 'Medora', 'Lifecare'],
+            finance: ['Finova', 'Wealtha', 'Moneta', 'Investa', 'Capital', 'Fundora', 'Paywise', 'Cashflow', 'Profits', 'Bankora'],
+            creative: ['Creativa', 'Artista', 'Designo', 'Imagina', 'Visiona', 'Craftly', 'Musebox', 'Innova', 'Ideator', 'Concept']
+        };
+
+        const suffixes = ['ly', 'io', 'ify', 'hub', 'lab', 'box', 'ify', 'verse', 'cloud', 'net'];
+        const prefixes = ['My', 'Go', 'Get', 'Pro', 'Super', 'Ultra', 'Mega', 'Hyper', 'Eco', 'Smart'];
+
+        function setCategory(cat) {
+            currentCategory = cat;
+            document.querySelectorAll('.category-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+        }
+
+        function generateNames() {
+            const keywords = document.getElementById('keywords').value.toLowerCase().trim();
+            const container = document.getElementById('resultsContainer');
+            const baseNames = nameDatabase[currentCategory];
+            const generated = [];
+
+            // Generate variations
+            for (let i = 0; i < 8; i++) {
+                const base = baseNames[Math.floor(Math.random() * baseNames.length)];
+                const suffix = suffixes[Math.floor(Math.random() * suffixes.length)];
+                const prefix = prefixes[Math.floor(Math.random() * prefixes.length)];
+                
+                let name;
+                const type = Math.floor(Math.random() * 4);
+                switch(type) {
+                    case 0: name = base + suffix; break;
+                    case 1: name = prefix + base; break;
+                    case 2: name = keywords ? capitalize(keywords) + base : base; break;
+                    case 3: name = base; break;
+                }
+                
+                if (!generated.includes(name)) {
+                    generated.push(name);
+                }
+            }
+
+            container.innerHTML = generated.map(name => `
+                <div class="name-card">
+                    <div>
+                        <div class="name-text">${name}</div>
+                        <div class="name-meta">${currentCategory.charAt(0).toUpperCase() + currentCategory.slice(1)} • Available domain likely</div>
+                    </div>
+                    <button class="btn btn-secondary btn-sm" onclick="copyToClipboard('${name}', 'Name copied!')">Copy</button>
+                </div>
+            `).join('');
+        }
+
+        function capitalize(str) {
+            return str.charAt(0).toUpperCase() + str.slice(1);
+        }
+
+        // Generate initial names
+        generateNames();
+    </script>
+</body>
+</html>
